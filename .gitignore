@@ -1,0 +1,67 @@
+# Flutter/Dart build outputs
+build/
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+
+# Pub cache
+.pub-cache/
+.pub/
+
+# Generated files
+*.g.dart
+*.freezed.dart
+
+# Android
+android/local.properties
+android/.gradle/
+android/key.properties
+**/android/gradlew
+**/android/gradlew.bat
+**/android/gradle/wrapper/gradle-wrapper.jar
+
+# iOS
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/flutter_export_environment.sh
+ios/Flutter/flutter_build/
+
+# macOS
+macos/Pods/
+macos/.symlinks/
+
+# Web
+lib/generated_plugin_registrant.dart
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Sensitive / secrets
+*.keystore
+*.jks
+android/key.properties
+.env
+.env.*
+
+# Logs
+*.log
+crash.log
+
+# Test coverage
+coverage/
+
+# Compiled
+*.dart.js
+*.part.js
+*.js.deps
+*.js.map
+
+# Flutter web cache
+.web_cache/
