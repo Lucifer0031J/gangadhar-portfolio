@@ -1,0 +1,11 @@
+{
+    "name": "Gangadhar Poosarla Portfolio",
+    "short_name": "Gangadhar Portfolio",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#0175C2",
+    "theme_color": "#0175C2",
+    "description": "Gangadhar Poosarla - Application Security Engineer Portfolio",
+    "orientation": "portrait-primary",
+    "prefer_related_applications": false
+}
