@@ -9,6 +9,7 @@ class ResumeData {
   static const String email = 'gangadharpoosarla8@gmail.com';
   static const String linkedin = 'linkedin.com/in/gangadhar-poosarla';
   static const String location = 'Visakhapatnam, India';
+  static const String apkUrl = 'https://github.com/Lucifer0031J/gangadhar-portfolio/raw/main/app-release.apk';
   
   // Tony Stark easter egg quote — hidden until user taps the avatar 5x
   static const String starkQuote =

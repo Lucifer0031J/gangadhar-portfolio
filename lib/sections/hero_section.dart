@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:animated_text_kit/animated_text_kit.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
@@ -311,6 +312,7 @@ class _HeroSectionState extends State<HeroSection>
           runSpacing: 8,
           children: [
             _buildPrimaryButton(context),
+            _buildApkButton(context, isDark),
             _buildSecondaryButton(context, isDark),
           ],
         ).animate().fadeIn(delay: 1000.ms),
@@ -375,6 +377,26 @@ class _HeroSectionState extends State<HeroSection>
       label: const Text('DOWNLOAD CV'),
       style: ElevatedButton.styleFrom(
         backgroundColor: AppTheme.arcReactor,
+        foregroundColor: AppTheme.darkBg,
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        textStyle: GoogleFonts.rajdhani(fontWeight: FontWeight.w700, letterSpacing: 1.5, fontSize: 14),
+      ),
+    );
+  }
+
+  Widget _buildApkButton(BuildContext context, bool isDark) {
+    return ElevatedButton.icon(
+      onPressed: () async {
+        final uri = Uri.parse(ResumeData.apkUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri);
+        }
+      },
+      icon: const Icon(Icons.android_rounded, size: 18),
+      label: const Text('DOWNLOAD THE APK HERE'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: AppTheme.cyberGreen,
         foregroundColor: AppTheme.darkBg,
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
