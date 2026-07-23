@@ -4,7 +4,7 @@
 
 class ResumeData {
   static const String name = 'GANGADHAR POOSARLA';
-  static const String title = 'Application Security Engineer';
+  static const String title = 'Application Security Analyst';
   static const String phone = '+91 8106707308';
   static const String email = 'gangadharpoosarla8@gmail.com';
   static const String linkedin = 'linkedin.com/in/gangadhar-poosarla';
@@ -16,13 +16,12 @@ class ResumeData {
       '"I am Iron Man." — But in this universe, I secure the suit\'s OS. 🔐';
 
   static const String summary =
-      'Application Security Engineer specializing in Web and API VAPT, '
-      'secure code review, threat modeling, and security automation. '
-      'Experienced in UAT/Pre-prod testing and remediation workflows aligned to '
-      'PCI-DSS, RBI, OWASP Top 10, ASVS. Offensive mindset developed via bug '
-      'bounty and research into quantum-safe cryptography, decentralized DNS, '
-      'and geo-fencing. Comfortable influencing dev teams, optimizing closure '
-      'rates, and integrating security practices across SDLC.';
+      'Application Security Analyst with 2 years of experience in web and API VAPT, '
+      'mobile security testing, secure code review, and custom security tooling development within '
+      'fintech environments. Hands-on with OWASP Top 10, ASVS, and PCI-DSS compliance workflows. '
+      'Experienced in building Python security automation tools for DevSecOps, SCA/SBOM vulnerability '
+      'parsing, HTTP header auditing, and Apache VirtualHost verification. Comfortable working across '
+      'dev and QA teams to track and close findings.';
 
   static const List<SkillCategory> skills = [
     SkillCategory(
@@ -31,70 +30,69 @@ class ResumeData {
       color: 0xFF00D4FF,
       items: [
         Skill('Web & API VAPT', 95),
-        Skill('Secure Code Review', 88),
-        Skill('Threat Modeling (STRIDE)', 85),
-        Skill('OWASP Top 10 / ASVS', 92),
-        Skill('PCI-DSS / RBI Compliance', 80),
-        Skill('SSDLC', 82),
+        Skill('Mobile App Security (MobSF, Frida)', 88),
+        Skill('Secure Code Review (Java/Python)', 85),
+        Skill('SAST/SCA (SonarQube, SBOM)', 90),
+        Skill('OWASP Top 10 / ASVS / MASVS', 92),
       ],
     ),
     SkillCategory(
-      name: 'Offensive Security',
+      name: 'Security Automation',
       icon: '⚔️',
       color: 0xFFFF3B3B,
       items: [
-        Skill('AuthZ/AuthN Abuse', 90),
-        Skill('IDOR / SSRF', 88),
-        Skill('Business Logic Flaws', 85),
-        Skill('Session & Crypto Misuse', 83),
-        Skill('Bug Bounty', 80),
+        Skill('Python Security Scripting', 92),
+        Skill('REST API Automation', 90),
+        Skill('Dependency-Check / CycloneDX', 85),
+        Skill('Apache Config Auditing', 88),
       ],
     ),
     SkillCategory(
-      name: 'Tooling',
+      name: 'Testing & Compliance',
       icon: '🔧',
       color: 0xFFFFB300,
       items: [
-        Skill('Burp Suite', 95),
-        Skill('Nmap / Nessus', 85),
-        Skill('MobSF / Mobexler', 82),
-        Skill('Metasploit', 78),
-        Skill('Wireshark', 80),
-        Skill('Postman / SoapUI', 88),
-        Skill('ImmuniWeb', 75),
+        Skill('AuthN/AuthZ & Logic Flaws', 90),
+        Skill('IDOR / SSRF', 92),
+        Skill('PCI-DSS / RBI Guidelines', 85),
+        Skill('Remediation Tracking', 88),
+        Skill('Apache APISIX Gateway', 80),
       ],
     ),
     SkillCategory(
-      name: 'Programming',
+      name: 'Tooling & Languages',
       icon: '💻',
       color: 0xFF00FF94,
       items: [
-        Skill('Python', 85),
-        Skill('Java', 78),
-        Skill('Bash', 82),
-        Skill('C', 70),
-        Skill('HTML5 / CSS3', 80),
-        Skill('Flutter / Dart', 75),
+        Skill('Python / Java / Bash / C', 88),
+        Skill('Burp Suite / Postman', 95),
+        Skill('MobSF / Frida (JS)', 85),
+        Skill('SonarQube', 85),
+        Skill('Wireshark', 80),
       ],
     ),
   ];
 
   static const List<Experience> experiences = [
     Experience(
-      role: 'Application Security Engineer',
+      role: 'Information Security Associate',
       company: 'Yalamanchili Solutions for Payments',
       period: 'Jul 2024 – Present',
       location: 'Visakhapatnam, India',
       isCurrent: true,
       color: 0xFF00D4FF,
       highlights: [
-        'Delivered VAPT for 40+ real-time web & API applications in UAT/pre-prod aligned to OWASP Top 10, ASVS and PCI-DSS.',
-        'Achieved 92% closure rate for high/critical findings within SLA by partnering with delivery, QA and dev teams.',
-        'Performed secure code reviews (Java/Python) and threat modeling, reducing vulnerability reopen rate by 28%.',
-        'Executed dynamic testing — uncovering auth bypass, IDOR, SSRF, insecure deserialization & business logic flaws.',
-        'Automated validation/reporting via in-house Security Headers Scanner (Python + Selenium), saving 15+ hrs/week.',
-        'Collaborated with SOC/EDR for threat triage and detection tuning, improving signal-to-noise ratios.',
-        'Participated in compliance-driven reviews supporting PCI-DSS & RBI guidelines for UAT approvals.',
+        'Conducted VAPT for 40+ web and API applications in UAT/pre-prod environments, aligned to OWASP Top 10, ASVS, and PCI-DSS requirements.',
+        'Developed a Python-based DevSecOps SCA & Supply Chain Pipeline integrating Nexus REST APIs, binary streaming retrievers, and an OWASP Dependency-Check/CycloneDX SBOM parser to automate SHA-512 hashing, PURL/CVSS mapping, and clean vs. vulnerable dependency reporting for DevOps.',
+        'Engineered a multi-threaded Security & Performance Headers Auditor (Python + openpyxl) with fallback execution mechanics (requests → curl → wget) and policy scoring to automate header validation across enterprise endpoints with styled Excel reports.',
+        'Built an automated Apache Config & URL Master Inventory Verifier in Python parsing VirtualHost rules (ProxyPass, Location, regex) and cross-referencing master sheets to detect missing/inactive contexts, domain mismatches, and IP CIDR whitelist errors.',
+        'Identified vulnerabilities including authentication bypass, IDOR, SSRF, insecure deserialization, and business logic flaws during dynamic testing.',
+        'Tracked and followed up on high/critical findings with dev and QA teams, contributing to consistent improvement in closure rates within agreed SLAs.',
+        'Performed secure code reviews (Java/Python) for new features, helping reduce recurring vulnerability patterns over time.',
+        'Participated in PCI-DSS & RBI compliance reviews for UAT and pre-production sign-off processes.',
+        'Led trial environment deployment of Apache APISIX as an API gateway and security layer; coordinating with stakeholders for production rollout pending approval — covering route-level access control, rate limiting, and API traffic inspection.',
+        'Supported SAST and SCA reviews using SonarQube and SBOM tooling as part of the secure development workflow.',
+        'Prepared and presented detailed VAPT reports with risk-rated findings and remediation guidance to development and QA stakeholders.',
       ],
     ),
     Experience(
@@ -105,56 +103,82 @@ class ResumeData {
       isCurrent: false,
       color: 0xFFFFB300,
       highlights: [
-        'Improved app load time by 40% via UI/UX refactor and performance tuning.',
-        'Increased active users from 10 to 400+ through enhanced user experience design.',
+        'Contributed to UI/UX improvements and performance fixes that meaningfully improved app responsiveness and user adoption.',
       ],
     ),
     Experience(
-      role: 'Freelance Bug Bounty Hunter',
-      company: 'Independent',
-      period: '2021 – Present',
-      location: 'Remote',
-      isCurrent: true,
+      role: 'Independent Vulnerability Research',
+      company: 'Bug Bounty & Responsible Disclosure',
+      period: '2021 – 2024',
+      location: 'Student Period',
+      isCurrent: false,
       color: 0xFFFF3B3B,
       highlights: [
-        'Reported 30+ vulnerabilities across public bug bounty programs.',
-        'Responsible disclosure of auth, session, crypto & logic issues.',
+        'Identified and responsibly disclosed 15+ vulnerabilities across targets including a college portal, FacePrep, and SVR Travels during undergraduate studies.',
+        'Findings covered authentication weaknesses, session issues, and access control flaws; all reported through responsible disclosure.',
       ],
     ),
   ];
 
   static const List<Project> projects = [
     Project(
-      title: 'DKMS — Quantum-Resistant Decentralized KMS',
+      title: 'DevSecOps SCA & Supply Chain Automation Pipeline',
       description:
-          'Designed a decentralized Key Management System using Shamir\'s Secret Sharing + CRYSTALS-Kyber with threat modeling & resilience tests for quantum-capable adversaries. Post-quantum security meets decentralization.',
-      tags: ['Cryptography', 'Quantum-Safe', 'CRYSTALS-Kyber', 'Distributed Systems'],
-      icon: '🔑',
+          'Automated Nexus inventory extraction, JAR streaming, SBOM parsing, SHA-512 hashing, and clean vs. vulnerable dependency segregation into styled HTML/CSV reports.',
+      tags: ['Python', 'Nexus API', 'CycloneDX', 'OWASP Dependency-Check'],
+      icon: '🔄',
       color: 0xFF00D4FF,
-      starkComment: 'JARVIS would be jealous of this encryption scheme.',
+      starkComment: 'JARVIS handling my dependencies, naturally.',
     ),
     Project(
-      title: 'Security Headers Scanner',
+      title: 'Multi-Threaded Security Header Auditor',
       description:
-          'Automated HTTP security header auditing tool built with Python & Selenium. Features Excel I/O for standardized reporting. Saved 15+ hrs/week across the security team and became an internal standard.',
-      tags: ['Python', 'Selenium', 'Automation', 'Security Headers'],
-      icon: '📡',
+          'High-throughput HTTP security header scanner featuring fallback execution mechanics, policy scoring, and automated Excel report generation.',
+      tags: ['Python', 'ThreadPoolExecutor', 'openpyxl', 'Automation'],
+      icon: '🛡️',
       color: 0xFF00FF94,
       starkComment: 'Even my suit has better security headers than most sites I\'ve scanned.',
     ),
     Project(
+      title: 'Apache VirtualHost & Master Sheet Audit Engine',
+      description:
+          'Automated verification engine parsing Apache proxy rules and cross-referencing master Excel inventories for IP subnet and route discrepancies.',
+      tags: ['Python', 'IPv4/v6 CIDR Parsing', 'Apache'],
+      icon: '📜',
+      color: 0xFFFFB300,
+      starkComment: 'Routing rules so tight, not even Ultron could slip through.',
+    ),
+    Project(
+      title: 'Mobile App Dynamic Security Audit Framework',
+      description:
+          'Dynamic binary instrumentation runner executing custom JavaScript hooks to inspect Android app runtime behaviors against mobile security checklists.',
+      tags: ['Python', 'Frida', 'Android', 'Mobile Security'],
+      icon: '📱',
+      color: 0xFFFF3B3B,
+      starkComment: 'Hooking into runtime like patching my own suit.',
+    ),
+    Project(
       title: 'Geo-fencing Access Control Tool',
       description:
-          'Enforced region-based access control via MaxMind GeoIP + Apache configuration. Blocked 70% unauthorized traffic in test scenarios. Real-world deployment-ready geo-restriction system.',
+          'Implemented region-based access enforcement using MaxMind GeoIP + Apache configuration; tested in a controlled lab environment.',
       tags: ['GeoIP', 'Apache', 'Access Control', 'Python'],
       icon: '🌐',
-      color: 0xFFFFB300,
+      color: 0xFF00D4FF,
       starkComment: 'Location-aware security — even Stark Tower had geo-fencing.',
     ),
     Project(
-      title: 'Decentralized DNS for Spoofing Mitigation',
+      title: 'DKMS — Quantum-Resistant Decentralized KMS',
       description:
-          'Research prototype leveraging Ethereum blockchain to reduce MITM risk via decentralized DNS resolution. Officially copyrighted (L-139347/2023) — the first blockchain DNS copyright in my portfolio.',
+          'Research project exploring decentralized key management using Shamir’s Secret Sharing and CRYSTALS-Kyber; includes basic threat modeling.',
+      tags: ['Cryptography', 'Quantum-Safe', 'CRYSTALS-Kyber', 'Distributed Systems'],
+      icon: '🔑',
+      color: 0xFF00FF94,
+      starkComment: 'Post-quantum encryption. JARVIS would be proud.',
+    ),
+    Project(
+      title: 'Decentralized DNS Prototype (Ethereum)',
+      description:
+          'Research prototype exploring DNS spoofing mitigation via blockchain; independently copyrighted (L-139347/2023).',
       tags: ['Ethereum', 'Blockchain', 'DNS', 'MITM Prevention', 'Copyrighted'],
       icon: '⛓️',
       color: 0xFFFF3B3B,
