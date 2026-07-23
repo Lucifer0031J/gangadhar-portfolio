@@ -155,13 +155,13 @@ class SectionHeader extends StatelessWidget {
 // ─── Skill Bar ────────────────────────────────────────────────────────────────
 class AnimatedSkillBar extends StatefulWidget {
   final String name;
-  final int percent;
+  final String level;
   final Color color;
 
   const AnimatedSkillBar({
     super.key,
     required this.name,
-    required this.percent,
+    required this.level,
     required this.color,
   });
 
@@ -210,12 +210,15 @@ class _AnimatedSkillBarState extends State<AnimatedSkillBar>
               ),
               AnimatedBuilder(
                 animation: _anim,
-                builder: (_, __) => Text(
-                  '${(_anim.value * widget.percent).toInt()}%',
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: widget.color,
+                builder: (_, __) => Opacity(
+                  opacity: _anim.value,
+                  child: Text(
+                    '✔ ${widget.level}',
+                    style: GoogleFonts.rajdhani(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: widget.color,
+                    ),
                   ),
                 ),
               ),
@@ -225,23 +228,23 @@ class _AnimatedSkillBarState extends State<AnimatedSkillBar>
           Stack(
             children: [
               Container(
-                height: 6,
+                height: 2,
                 decoration: BoxDecoration(
                   color: isDark ? Colors.white12 : Colors.black12,
-                  borderRadius: BorderRadius.circular(3),
+                  borderRadius: BorderRadius.circular(1),
                 ),
               ),
               AnimatedBuilder(
                 animation: _anim,
                 builder: (_, __) => FractionallySizedBox(
-                  widthFactor: _anim.value * widget.percent / 100,
+                  widthFactor: _anim.value,
                   child: Container(
-                    height: 6,
+                    height: 2,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [widget.color.withOpacity(0.7), widget.color],
                       ),
-                      borderRadius: BorderRadius.circular(3),
+                      borderRadius: BorderRadius.circular(1),
                       boxShadow: [
                         BoxShadow(color: widget.color.withOpacity(0.5), blurRadius: 6),
                       ],
@@ -310,7 +313,7 @@ class StatCard extends StatelessWidget {
   final String value;
   final String label;
   final Color color;
-  final String icon;
+  final IconData icon;
 
   const StatCard({
     super.key,
@@ -329,7 +332,7 @@ class StatCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(icon, style: const TextStyle(fontSize: 28)),
+          Icon(icon, size: 28, color: color),
           const SizedBox(height: 8),
           Text(
             value,

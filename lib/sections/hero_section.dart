@@ -242,47 +242,18 @@ class _HeroSectionState extends State<HeroSection>
             ),
             Flexible(
               child: AnimatedTextKit(
-                repeatForever: true,
+                isRepeatingAnimation: false,
                 animatedTexts: [
                   TypewriterAnimatedText(
-                    'Application Security Engineer',
+                    'Application Security Engineer\n\nWeb • API • Android\n\nBuilding secure software.\nBreaking insecure software.\nAutomating everything in between.',
                     textStyle: GoogleFonts.rajdhani(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
                       color: AppTheme.arcReactor,
                       letterSpacing: 1,
+                      height: 1.5,
                     ),
-                    speed: const Duration(milliseconds: 60),
-                  ),
-                  TypewriterAnimatedText(
-                    'Web & API VAPT Specialist',
-                    textStyle: GoogleFonts.rajdhani(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.ironGold,
-                      letterSpacing: 1,
-                    ),
-                    speed: const Duration(milliseconds: 60),
-                  ),
-                  TypewriterAnimatedText(
-                    'Bug Bounty Hunter',
-                    textStyle: GoogleFonts.rajdhani(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.cyberGreen,
-                      letterSpacing: 1,
-                    ),
-                    speed: const Duration(milliseconds: 60),
-                  ),
-                  TypewriterAnimatedText(
-                    'Quantum Cryptography Researcher',
-                    textStyle: GoogleFonts.rajdhani(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w600,
-                      color: AppTheme.arcReactor,
-                      letterSpacing: 1,
-                    ),
-                    speed: const Duration(milliseconds: 60),
+                    speed: const Duration(milliseconds: 40),
                   ),
                 ],
               ),
@@ -394,7 +365,7 @@ class _HeroSectionState extends State<HeroSection>
         }
       },
       icon: const Icon(Icons.android_rounded, size: 18),
-      label: const Text('DOWNLOAD THE APK HERE'),
+      label: const Text('LAUNCH ANDROID PORTFOLIO'),
       style: ElevatedButton.styleFrom(
         backgroundColor: AppTheme.cyberGreen,
         foregroundColor: AppTheme.darkBg,
@@ -471,40 +442,46 @@ class _HeroSectionState extends State<HeroSection>
               ),
             ),
             // Avatar circle
-            Container(
-              width: 190,
-              height: 190,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                gradient: const LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [Color(0xFF1A3A5C), Color(0xFF0D1B2A)],
-                ),
-                border: Border.all(color: AppTheme.arcReactor.withOpacity(0.5), width: 2),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppTheme.arcReactor.withOpacity(0.3),
-                    blurRadius: 30,
-                    spreadRadius: 5,
+            AnimatedBuilder(
+              animation: _rotateCtrl,
+              builder: (_, __) => Transform.rotate(
+                angle: -_rotateCtrl.value * 2 * pi,
+                child: Container(
+                  width: 190,
+                  height: 190,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [Color(0xFF1A3A5C), Color(0xFF0D1B2A)],
+                    ),
+                    border: Border.all(color: AppTheme.arcReactor.withOpacity(0.5), width: 2),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppTheme.arcReactor.withOpacity(0.3),
+                        blurRadius: 30,
+                        spreadRadius: 5,
+                      ),
+                    ],
                   ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('GP', style: GoogleFonts.rajdhani(
-                    fontSize: 56,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.arcReactor,
-                    letterSpacing: 4,
-                  )),
-                  Text('[ TAP 5× ]', style: GoogleFonts.rajdhani(
-                    fontSize: 9,
-                    color: AppTheme.arcReactor.withOpacity(0.4),
-                    letterSpacing: 2,
-                  )),
-                ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text('GP', style: GoogleFonts.rajdhani(
+                        fontSize: 56,
+                        fontWeight: FontWeight.w700,
+                        color: AppTheme.arcReactor,
+                        letterSpacing: 4,
+                      )),
+                      Text('[ TAP 5× ]', style: GoogleFonts.rajdhani(
+                        fontSize: 9,
+                        color: AppTheme.arcReactor.withOpacity(0.4),
+                        letterSpacing: 2,
+                      )),
+                    ],
+                  ),
+                ),
               ),
             ),
             // Arc reactor dot at center-bottom

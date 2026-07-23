@@ -16,12 +16,10 @@ class ResumeData {
       '"I am Iron Man." — But in this universe, I secure the suit\'s OS. 🔐';
 
   static const String summary =
-      'Application Security Analyst with 2 years of experience in web and API VAPT, '
-      'mobile security testing, secure code review, and custom security tooling development within '
-      'fintech environments. Hands-on with OWASP Top 10, ASVS, and PCI-DSS compliance workflows. '
-      'Experienced in building Python security automation tools for DevSecOps, SCA/SBOM vulnerability '
-      'parsing, HTTP header auditing, and Apache VirtualHost verification. Comfortable working across '
-      'dev and QA teams to track and close findings.';
+      'I started building Android applications before moving into Application Security. '
+      'That experience changed how I approach testing—I don\'t just look for vulnerabilities, '
+      'I think like the developer who wrote the code. Today I focus on securing web, API, '
+      'and mobile applications while automating repetitive security workflows wherever possible.';
 
   static const List<SkillCategory> skills = [
     SkillCategory(
@@ -29,34 +27,34 @@ class ResumeData {
       icon: '🛡️',
       color: 0xFF00D4FF,
       items: [
-        Skill('Web & API VAPT', 95),
-        Skill('Mobile App Security (MobSF, Frida)', 88),
-        Skill('Secure Code Review (Java/Python)', 85),
-        Skill('SAST/SCA (SonarQube, SBOM)', 90),
-        Skill('OWASP Top 10 / ASVS / MASVS', 92),
+        Skill('Web & API VAPT', 'Expert'),
+        Skill('Mobile App Security (MobSF, Frida)', 'Expert'),
+        Skill('Secure Code Review (Java/Python)', 'Advanced'),
+        Skill('SAST/SCA (SonarQube, SBOM)', 'Advanced'),
+        Skill('OWASP Top 10 / ASVS / MASVS', 'Expert'),
       ],
     ),
     SkillCategory(
       name: 'Security Automation',
-      icon: '⚔️',
+      icon: '⚙️',
       color: 0xFFFF3B3B,
       items: [
-        Skill('Python Security Scripting', 92),
-        Skill('REST API Automation', 90),
-        Skill('Dependency-Check / CycloneDX', 85),
-        Skill('Apache Config Auditing', 88),
+        Skill('Python Security Scripting', 'Expert'),
+        Skill('REST API Automation', 'Advanced'),
+        Skill('Dependency-Check / CycloneDX', 'Working Knowledge'),
+        Skill('Apache Config Auditing', 'Advanced'),
       ],
     ),
     SkillCategory(
       name: 'Testing & Compliance',
-      icon: '🔧',
+      icon: '✅',
       color: 0xFFFFB300,
       items: [
-        Skill('AuthN/AuthZ & Logic Flaws', 90),
-        Skill('IDOR / SSRF', 92),
-        Skill('PCI-DSS / RBI Guidelines', 85),
-        Skill('Remediation Tracking', 88),
-        Skill('Apache APISIX Gateway', 80),
+        Skill('AuthN/AuthZ & Logic Flaws', 'Expert'),
+        Skill('IDOR / SSRF', 'Expert'),
+        Skill('PCI-DSS / RBI Guidelines', 'Advanced'),
+        Skill('Remediation Tracking', 'Advanced'),
+        Skill('Apache APISIX Gateway', 'Working Knowledge'),
       ],
     ),
     SkillCategory(
@@ -64,65 +62,73 @@ class ResumeData {
       icon: '💻',
       color: 0xFF00FF94,
       items: [
-        Skill('Python / Java / Bash / C', 88),
-        Skill('Burp Suite / Postman', 95),
-        Skill('MobSF / Frida (JS)', 85),
-        Skill('SonarQube', 85),
-        Skill('Wireshark', 80),
+        Skill('Python / Java / Bash / C', 'Advanced'),
+        Skill('Burp Suite / Postman', 'Expert'),
+        Skill('MobSF / Frida (JS)', 'Working Knowledge'),
+        Skill('SonarQube', 'Advanced'),
+        Skill('Wireshark', 'Working Knowledge'),
       ],
     ),
   ];
 
-  static const List<Experience> experiences = [
-    Experience(
-      role: 'Information Security Associate',
+  static const List<ResearchItem> research = [
+    ResearchItem('Frida Runtime Instrumentation', 'ACTIVE'),
+    ResearchItem('Android Banking Security', 'ACTIVE'),
+    ResearchItem('SBOM Automation', 'ACTIVE'),
+    ResearchItem('Secure SDLC', 'ACTIVE'),
+    ResearchItem('AI for AppSec', 'ACTIVE'),
+  ];
+
+  static const List<MissionLog> experiences = [
+    MissionLog(
+      missionId: 'MISSION LOG 001',
+      objective: 'Secure banking web portals and scale DevSecOps pipeline.',
       company: 'Yalamanchili Solutions for Payments',
       period: 'Jul 2024 – Present',
       location: 'Visakhapatnam, India',
-      isCurrent: true,
+      status: 'ACTIVE',
       color: 0xFF00D4FF,
-      highlights: [
-        'Conducted VAPT for 40+ web and API applications in UAT/pre-prod environments, aligned to OWASP Top 10, ASVS, and PCI-DSS requirements.',
-        'Developed a Python-based DevSecOps SCA & Supply Chain Pipeline integrating Nexus REST APIs, binary streaming retrievers, and an OWASP Dependency-Check/CycloneDX SBOM parser to automate SHA-512 hashing, PURL/CVSS mapping, and clean vs. vulnerable dependency reporting for DevOps.',
-        'Engineered a multi-threaded Security & Performance Headers Auditor (Python + openpyxl) with fallback execution mechanics (requests → curl → wget) and policy scoring to automate header validation across enterprise endpoints with styled Excel reports.',
-        'Built an automated Apache Config & URL Master Inventory Verifier in Python parsing VirtualHost rules (ProxyPass, Location, regex) and cross-referencing master sheets to detect missing/inactive contexts, domain mismatches, and IP CIDR whitelist errors.',
-        'Identified vulnerabilities including authentication bypass, IDOR, SSRF, insecure deserialization, and business logic flaws during dynamic testing.',
-        'Tracked and followed up on high/critical findings with dev and QA teams, contributing to consistent improvement in closure rates within agreed SLAs.',
-        'Performed secure code reviews (Java/Python) for new features, helping reduce recurring vulnerability patterns over time.',
-        'Participated in PCI-DSS & RBI compliance reviews for UAT and pre-production sign-off processes.',
-        'Led trial environment deployment of Apache APISIX as an API gateway and security layer; coordinating with stakeholders for production rollout pending approval — covering route-level access control, rate limiting, and API traffic inspection.',
-        'Supported SAST and SCA reviews using SonarQube and SBOM tooling as part of the secure development workflow.',
-        'Prepared and presented detailed VAPT reports with risk-rated findings and remediation guidance to development and QA stakeholders.',
+      results: [
+        '✓ 40+ web & API applications assessed (OWASP/ASVS/PCI-DSS)',
+        '✓ DevSecOps SCA Pipeline built (Python, Nexus REST API, CycloneDX)',
+        '✓ Automated Security Headers Auditor (Python, openpyxl)',
+        '✓ Apache Config Verifier deployed',
+        '✓ Apache APISIX API Gateway configured for rate limiting & access control',
+        '✓ Found auth bypass, IDOR, SSRF & insecure deserialization flaws',
+        '✓ Secure code reviews (Java/Python)',
       ],
     ),
-    Experience(
-      role: 'Android Development Intern',
+    MissionLog(
+      missionId: 'MISSION LOG 002',
+      objective: 'Optimize and refine mobile user experience.',
       company: 'WiSeNet Automation Pvt. Ltd.',
       period: 'Nov 2023 – Jan 2024',
       location: 'Visakhapatnam, India',
-      isCurrent: false,
+      status: 'COMPLETED',
       color: 0xFFFFB300,
-      highlights: [
-        'Contributed to UI/UX improvements and performance fixes that meaningfully improved app responsiveness and user adoption.',
+      results: [
+        '✓ UI/UX refactored for 40% load time improvement',
+        '✓ Active users increased from 10 to 400+',
       ],
     ),
-    Experience(
-      role: 'Independent Vulnerability Research',
+    MissionLog(
+      missionId: 'MISSION LOG 003',
+      objective: 'Find and responsibly disclose critical vulnerabilities.',
       company: 'Bug Bounty & Responsible Disclosure',
       period: '2021 – 2024',
       location: 'Student Period',
-      isCurrent: false,
+      status: 'COMPLETED',
       color: 0xFFFF3B3B,
-      highlights: [
-        'Identified and responsibly disclosed 15+ vulnerabilities across targets including a college portal, FacePrep, and SVR Travels during undergraduate studies.',
-        'Findings covered authentication weaknesses, session issues, and access control flaws; all reported through responsible disclosure.',
+      results: [
+        '✓ 15+ vulnerabilities reported (college portal, FacePrep, SVR Travels)',
+        '✓ Auth weaknesses, session issues, access control flaws disclosed',
       ],
     ),
   ];
 
   static const List<Project> projects = [
     Project(
-      title: 'DevSecOps SCA & Supply Chain Automation Pipeline',
+      title: 'SBOM Generator Automation',
       description:
           'Automated Nexus inventory extraction, JAR streaming, SBOM parsing, SHA-512 hashing, and clean vs. vulnerable dependency segregation into styled HTML/CSV reports.',
       tags: ['Python', 'Nexus API', 'CycloneDX', 'OWASP Dependency-Check'],
@@ -131,7 +137,7 @@ class ResumeData {
       starkComment: 'JARVIS handling my dependencies, naturally.',
     ),
     Project(
-      title: 'Multi-Threaded Security Header Auditor',
+      title: 'Python Security Scripts',
       description:
           'High-throughput HTTP security header scanner featuring fallback execution mechanics, policy scoring, and automated Excel report generation.',
       tags: ['Python', 'ThreadPoolExecutor', 'openpyxl', 'Automation'],
@@ -140,7 +146,7 @@ class ResumeData {
       starkComment: 'Even my suit has better security headers than most sites I\'ve scanned.',
     ),
     Project(
-      title: 'Apache VirtualHost & Master Sheet Audit Engine',
+      title: 'Burp Extensions / Apache Verifier',
       description:
           'Automated verification engine parsing Apache proxy rules and cross-referencing master Excel inventories for IP subnet and route discrepancies.',
       tags: ['Python', 'IPv4/v6 CIDR Parsing', 'Apache'],
@@ -149,7 +155,7 @@ class ResumeData {
       starkComment: 'Routing rules so tight, not even Ultron could slip through.',
     ),
     Project(
-      title: 'Mobile App Dynamic Security Audit Framework',
+      title: 'MobSF Automation & Frida Scripts',
       description:
           'Dynamic binary instrumentation runner executing custom JavaScript hooks to inspect Android app runtime behaviors against mobile security checklists.',
       tags: ['Python', 'Frida', 'Android', 'Mobile Security'],
@@ -158,7 +164,7 @@ class ResumeData {
       starkComment: 'Hooking into runtime like patching my own suit.',
     ),
     Project(
-      title: 'Geo-fencing Access Control Tool',
+      title: 'Android Testing Toolkit',
       description:
           'Implemented region-based access enforcement using MaxMind GeoIP + Apache configuration; tested in a controlled lab environment.',
       tags: ['GeoIP', 'Apache', 'Access Control', 'Python'],
@@ -167,22 +173,13 @@ class ResumeData {
       starkComment: 'Location-aware security — even Stark Tower had geo-fencing.',
     ),
     Project(
-      title: 'DKMS — Quantum-Resistant Decentralized KMS',
+      title: 'Quantum-Resistant Decentralized KMS',
       description:
           'Research project exploring decentralized key management using Shamir’s Secret Sharing and CRYSTALS-Kyber; includes basic threat modeling.',
-      tags: ['Cryptography', 'Quantum-Safe', 'CRYSTALS-Kyber', 'Distributed Systems'],
+      tags: ['Cryptography', 'Quantum-Safe', 'CRYSTALS-Kyber'],
       icon: '🔑',
       color: 0xFF00FF94,
       starkComment: 'Post-quantum encryption. JARVIS would be proud.',
-    ),
-    Project(
-      title: 'Decentralized DNS Prototype (Ethereum)',
-      description:
-          'Research prototype exploring DNS spoofing mitigation via blockchain; independently copyrighted (L-139347/2023).',
-      tags: ['Ethereum', 'Blockchain', 'DNS', 'MITM Prevention', 'Copyrighted'],
-      icon: '⛓️',
-      color: 0xFFFF3B3B,
-      starkComment: 'DNS on blockchain? Even Fury didn\'t see that coming.',
     ),
   ];
 
@@ -228,22 +225,29 @@ class SkillCategory {
 
 class Skill {
   final String name;
-  final int proficiency; // 0–100
-  const Skill(this.name, this.proficiency);
+  final String level; 
+  const Skill(this.name, this.level);
 }
 
-class Experience {
-  final String role;
+class ResearchItem {
+  final String title;
+  final String status;
+  const ResearchItem(this.title, this.status);
+}
+
+class MissionLog {
+  final String missionId;
+  final String objective;
   final String company;
   final String period;
   final String location;
-  final bool isCurrent;
+  final String status;
   final int color;
-  final List<String> highlights;
-  const Experience({
-    required this.role, required this.company, required this.period,
-    required this.location, required this.isCurrent, required this.color,
-    required this.highlights,
+  final List<String> results;
+  const MissionLog({
+    required this.missionId, required this.objective, required this.company,
+    required this.period, required this.location, required this.status, required this.color,
+    required this.results,
   });
 }
 

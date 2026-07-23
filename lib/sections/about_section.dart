@@ -97,7 +97,7 @@ class AboutSection extends StatelessWidget {
           glowColor: AppTheme.ironGold,
           child: Row(
             children: [
-              const Text('🦾', style: TextStyle(fontSize: 32)),
+              const Icon(Icons.hardware_rounded, size: 32, color: AppTheme.ironGold),
               const SizedBox(width: 14),
               Expanded(
                 child: Column(
@@ -155,13 +155,13 @@ class AboutSection extends StatelessWidget {
 
   List<Widget> _infoRows(BuildContext context, bool isDark) {
     final rows = [
-      ('📧', 'Email', ResumeData.email),
-      ('📱', 'Phone', ResumeData.phone),
-      ('🔗', 'LinkedIn', ResumeData.linkedin),
-      ('📍', 'Location', ResumeData.location),
-      ('🏢', 'Current Role', 'AppSec Engineer @ Yalamanchili'),
-      ('🎓', 'Education', 'B.Tech IT — GMRIT, 2024'),
-      ('🎖️', 'Certification', 'CTIGA — Red Team Leaders'),
+      (Icons.email_rounded, 'Email', ResumeData.email),
+      (Icons.phone_android_rounded, 'Phone', ResumeData.phone),
+      (Icons.link_rounded, 'LinkedIn', ResumeData.linkedin),
+      (Icons.location_on_rounded, 'Location', ResumeData.location),
+      (Icons.work_rounded, 'Current Role', 'AppSec Engineer @ Yalamanchili'),
+      (Icons.school_rounded, 'Education', 'B.Tech IT — GMRIT, 2024'),
+      (Icons.card_membership_rounded, 'Certification', 'CTIGA — Red Team Leaders'),
     ];
 
     return rows.map((r) => Padding(
@@ -169,7 +169,7 @@ class AboutSection extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(r.$1, style: const TextStyle(fontSize: 16)),
+          Icon(r.$1, size: 16, color: AppTheme.cyberGreen),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -211,10 +211,10 @@ class AboutSection extends StatelessWidget {
           mainAxisSpacing: 12,
           childAspectRatio: 1.3,
           children: const [
-            StatCard(value: '40+', label: 'Web & API Apps\nSecured', color: AppTheme.arcReactor, icon: '🛡️'),
-            StatCard(value: '92%', label: 'High/Critical\nClosure Rate', color: AppTheme.cyberGreen, icon: '✅'),
-            StatCard(value: '30+', label: 'Bugs Reported\nvia Bounty', color: AppTheme.ironGold, icon: '🐛'),
-            StatCard(value: '28%', label: 'Vuln Reopen\nRate Reduced', color: AppTheme.redAlert, icon: '📉'),
+            StatCard(value: '40+', label: 'Web & API Apps\nSecured', color: AppTheme.arcReactor, icon: Icons.security_rounded),
+            StatCard(value: '92%', label: 'High/Critical\nClosure Rate', color: AppTheme.cyberGreen, icon: Icons.verified_rounded),
+            StatCard(value: '30+', label: 'Bugs Reported\nvia Bounty', color: AppTheme.ironGold, icon: Icons.bug_report_rounded),
+            StatCard(value: '28%', label: 'Vuln Reopen\nRate Reduced', color: AppTheme.redAlert, icon: Icons.trending_down_rounded),
           ],
         );
       },

@@ -27,7 +27,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       child: Column(
         children: [
           const SectionHeader(
-            title: 'Projects',
+            title: 'Security Arsenal',
             subtitle: 'Research & applied security weapons',
             accentColor: AppTheme.redAlert,
           ),

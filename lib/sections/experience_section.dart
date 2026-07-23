@@ -24,7 +24,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
       child: Column(
         children: [
           const SectionHeader(
-            title: 'Experience',
+            title: 'Mission Logs',
             subtitle: 'Battle log & deployments',
             accentColor: AppTheme.cyberGreen,
           ),
@@ -41,9 +41,10 @@ class _ExperienceSectionState extends State<ExperienceSection> {
     );
   }
 
-  Widget _buildTimelineCard(BuildContext context, bool isDark, int idx, Experience exp) {
+  Widget _buildTimelineCard(BuildContext context, bool isDark, int idx, MissionLog exp) {
     final color = Color(exp.color);
     final isExpanded = _expanded == idx;
+    final isCurrent = exp.status == 'ACTIVE';
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
@@ -58,9 +59,9 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                 height: 14,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: exp.isCurrent ? color : color.withOpacity(0.5),
+                  color: isCurrent ? color : color.withOpacity(0.5),
                   border: Border.all(color: color, width: 2),
-                  boxShadow: exp.isCurrent
+                  boxShadow: isCurrent
                       ? [BoxShadow(color: color.withOpacity(0.5), blurRadius: 8)]
                       : [],
                 ),
@@ -99,29 +100,27 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                             children: [
                               Row(
                                 children: [
-                                  if (exp.isCurrent) ...[
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                      decoration: BoxDecoration(
-                                        color: color.withOpacity(0.15),
-                                        borderRadius: BorderRadius.circular(4),
-                                        border: Border.all(color: color.withOpacity(0.4)),
-                                      ),
-                                      child: Text(
-                                        'ACTIVE',
-                                        style: GoogleFonts.rajdhani(
-                                          fontSize: 9,
-                                          fontWeight: FontWeight.w700,
-                                          color: color,
-                                          letterSpacing: 1.5,
-                                        ),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    decoration: BoxDecoration(
+                                      color: color.withOpacity(0.15),
+                                      borderRadius: BorderRadius.circular(4),
+                                      border: Border.all(color: color.withOpacity(0.4)),
+                                    ),
+                                    child: Text(
+                                      exp.status,
+                                      style: GoogleFonts.rajdhani(
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.w700,
+                                        color: color,
+                                        letterSpacing: 1.5,
                                       ),
                                     ),
-                                    const SizedBox(width: 8),
-                                  ],
+                                  ),
+                                  const SizedBox(width: 8),
                                   Expanded(
                                     child: Text(
-                                      exp.role,
+                                      exp.missionId,
                                       style: GoogleFonts.rajdhani(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
@@ -134,7 +133,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                exp.company,
+                                'Objective: ${exp.objective}',
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: color,
                                   fontWeight: FontWeight.w600,
@@ -184,24 +183,23 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                         color: color.withOpacity(0.2),
                       ),
                       const SizedBox(height: 16),
-                      ...exp.highlights.asMap().entries.map((h) => Padding(
-                        padding: const EdgeInsets.only(bottom: 10),
+                      Text(
+                        'Results:',
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                          color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ...exp.results.map((r) => Padding(
+                        padding: const EdgeInsets.only(bottom: 6),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              width: 6,
-                              height: 6,
-                              margin: const EdgeInsets.only(top: 6, right: 10),
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                color: color,
-                                boxShadow: [BoxShadow(color: color.withOpacity(0.5), blurRadius: 4)],
-                              ),
-                            ),
                             Expanded(
                               child: Text(
-                                h.value,
+                                r,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: isDark ? AppTheme.textSecondary : Colors.black54,
                                   height: 1.6,
@@ -210,7 +208,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                             ),
                           ],
                         ),
-                      )).animate(interval: 60.ms).fadeIn().slideX(begin: -0.05, end: 0),
+                      )).toList().animate(interval: 60.ms).fadeIn().slideX(begin: -0.05, end: 0),
                     ],
                   ],
                 ),

@@ -10,6 +10,7 @@ import '../sections/experience_section.dart';
 import '../sections/projects_section.dart';
 import '../sections/cert_education_section.dart';
 import '../sections/contact_section.dart';
+import '../sections/research_section.dart';
 import '../widgets/common_widgets.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,16 +35,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   late AnimationController _navAnim;
 
   // Section keys for scrolling
-  final List<GlobalKey> _sectionKeys = List.generate(7, (_) => GlobalKey());
+  final List<GlobalKey> _sectionKeys = List.generate(8, (_) => GlobalKey());
 
   final _navItems = [
     ('Home', Icons.home_outlined),
     ('About', Icons.person_outline),
-    ('Skills', Icons.bolt_outlined),
-    ('Experience', Icons.work_outline),
-    ('Projects', Icons.science_outlined),
+    ('Capabilities', Icons.bolt_outlined),
+    ('Research', Icons.biotech_outlined),
+    ('Mission Logs', Icons.work_outline),
+    ('Arsenal', Icons.science_outlined),
     ('Credentials', Icons.verified_outlined),
-    ('Contact', Icons.mail_outline),
+    ('Comms', Icons.mail_outline),
   ];
 
   @override
@@ -129,13 +131,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 const NeonDivider(),
                 KeyedSubtree(key: _sectionKeys[2], child: const SkillsSection()),
                 const NeonDivider(),
-                KeyedSubtree(key: _sectionKeys[3], child: const ExperienceSection()),
+                KeyedSubtree(key: _sectionKeys[3], child: const ResearchSection()),
                 const NeonDivider(),
-                KeyedSubtree(key: _sectionKeys[4], child: const ProjectsSection()),
+                KeyedSubtree(key: _sectionKeys[4], child: const ExperienceSection()),
                 const NeonDivider(),
-                KeyedSubtree(key: _sectionKeys[5], child: const CertEducationSection()),
+                KeyedSubtree(key: _sectionKeys[5], child: const ProjectsSection()),
                 const NeonDivider(),
-                KeyedSubtree(key: _sectionKeys[6], child: const ContactSection()),
+                KeyedSubtree(key: _sectionKeys[6], child: const CertEducationSection()),
+                const NeonDivider(),
+                KeyedSubtree(key: _sectionKeys[7], child: const ContactSection()),
               ],
             ),
           ),

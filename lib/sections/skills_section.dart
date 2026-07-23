@@ -26,8 +26,8 @@ class _SkillsSectionState extends State<SkillsSection> {
       child: Column(
         children: [
           const SectionHeader(
-            title: 'Skills',
-            subtitle: 'Arsenal & capabilities',
+            title: 'Operational Capabilities',
+            subtitle: 'System tools and proficiencies',
             accentColor: AppTheme.ironGold,
           ),
           const SizedBox(height: 40),
@@ -43,6 +43,21 @@ class _SkillsSectionState extends State<SkillsSection> {
         ],
       ),
     );
+  }
+
+  IconData _getIconForEmoji(String emoji) {
+    switch (emoji) {
+      case '🛡️': return Icons.security_rounded;
+      case '⚙️': return Icons.settings_suggest_rounded;
+      case '✅': return Icons.verified_rounded;
+      case '💻': return Icons.computer_rounded;
+      case '🔍': return Icons.search_rounded;
+      case '🐛': return Icons.bug_report_rounded;
+      case '🤖': return Icons.smart_toy_rounded;
+      case '📋': return Icons.assignment_rounded;
+      case '⚔️': return Icons.hardware_rounded;
+      default: return Icons.memory_rounded;
+    }
   }
 
   Widget _buildCategorySelector(bool isDark) {
@@ -74,7 +89,7 @@ class _SkillsSectionState extends State<SkillsSection> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(cat.icon, style: const TextStyle(fontSize: 16)),
+                  Icon(_getIconForEmoji(cat.icon), size: 16, color: selected ? (isDark ? AppTheme.darkBg : Colors.white) : color),
                   const SizedBox(width: 6),
                   Text(
                     cat.name,
@@ -112,7 +127,7 @@ class _SkillsSectionState extends State<SkillsSection> {
               children: [
                 Row(
                   children: [
-                    Text(cat.icon, style: const TextStyle(fontSize: 28)),
+                    Icon(_getIconForEmoji(cat.icon), size: 28, color: color),
                     const SizedBox(width: 10),
                     Text(
                       cat.name.toUpperCase(),
@@ -128,7 +143,7 @@ class _SkillsSectionState extends State<SkillsSection> {
                 const SizedBox(height: 24),
                 ...cat.items.map((s) => AnimatedSkillBar(
                   name: s.name,
-                  percent: s.proficiency,
+                  level: s.level,
                   color: color,
                 )),
               ],
@@ -158,7 +173,7 @@ class _SkillsSectionState extends State<SkillsSection> {
         children: [
           Row(
             children: [
-              Text(cat.icon, style: const TextStyle(fontSize: 24)),
+              Icon(_getIconForEmoji(cat.icon), size: 24, color: color),
               const SizedBox(width: 8),
               Text(
                 cat.name.toUpperCase(),
@@ -174,7 +189,7 @@ class _SkillsSectionState extends State<SkillsSection> {
           const SizedBox(height: 20),
           ...cat.items.map((s) => AnimatedSkillBar(
             name: s.name,
-            percent: s.proficiency,
+            level: s.level,
             color: color,
           )),
         ],
@@ -210,7 +225,7 @@ class _SkillsSectionState extends State<SkillsSection> {
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
           child: Row(
             children: [
-              Text(c.$1, style: const TextStyle(fontSize: 16)),
+              Icon(_getIconForEmoji(c.$1), size: 16, color: c.$3),
               const SizedBox(width: 8),
               Expanded(
                 child: Text(

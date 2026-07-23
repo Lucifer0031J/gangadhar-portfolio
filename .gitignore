@@ -32,7 +32,6 @@ macos/Pods/
 macos/.symlinks/
 
 # Web
-lib/generated_plugin_registrant.dart
 
 # IDEs
 .idea/

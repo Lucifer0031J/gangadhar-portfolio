@@ -29,7 +29,7 @@ class AppTheme {
       error: redAlert,
     ),
     textTheme: _buildTextTheme(textPrimary),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: darkCard,
       elevation: 0,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -63,7 +63,7 @@ class AppTheme {
       surface: lightSurface,
     ),
     textTheme: _buildTextTheme(const Color(0xFF0D1B2A)),
-    cardTheme: CardTheme(
+    cardTheme: CardThemeData(
       color: lightSurface,
       elevation: 2,
       shadowColor: Colors.black12,

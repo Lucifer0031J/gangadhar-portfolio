@@ -61,8 +61,8 @@ class _ContactSectionState extends State<ContactSection>
       child: Column(
         children: [
           const SectionHeader(
-            title: 'Contact',
-            subtitle: 'Open a channel',
+            title: 'Mission Control',
+            subtitle: 'Secure comms channel',
             accentColor: AppTheme.cyberGreen,
           ),
           const SizedBox(height: 40),
@@ -92,32 +92,32 @@ class _ContactSectionState extends State<ContactSection>
   Widget _buildContactCards(BuildContext context, bool isDark) {
     final contacts = [
       _ContactItem(
-        icon: '📧',
-        label: 'EMAIL',
-        value: ResumeData.email,
+        icon: Icons.wifi_rounded,
+        label: 'SIGNAL',
+        value: 'ONLINE',
         color: AppTheme.arcReactor,
-        copyable: true,
-      ),
-      _ContactItem(
-        icon: '📱',
-        label: 'PHONE',
-        value: ResumeData.phone,
-        color: AppTheme.cyberGreen,
-        copyable: true,
-      ),
-      _ContactItem(
-        icon: '💼',
-        label: 'LINKEDIN',
-        value: ResumeData.linkedin,
-        color: Color(0xFF0A66C2),
         copyable: false,
       ),
       _ContactItem(
-        icon: '📍',
-        label: 'LOCATION',
-        value: ResumeData.location,
+        icon: Icons.timer_rounded,
+        label: 'RESPONSE TIME',
+        value: '< 24 HOURS',
+        color: AppTheme.cyberGreen,
+        copyable: false,
+      ),
+      _ContactItem(
+        icon: Icons.event_available_rounded,
+        label: 'AVAILABILITY',
+        value: 'OPEN TO APPSEC ROLES',
         color: AppTheme.ironGold,
         copyable: false,
+      ),
+      _ContactItem(
+        icon: Icons.email_rounded,
+        label: 'ENCRYPTED COMMS',
+        value: ResumeData.email,
+        color: AppTheme.redAlert,
+        copyable: true,
       ),
     ];
 
@@ -138,7 +138,7 @@ class _ContactSectionState extends State<ContactSection>
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Center(
-                    child: Text(contact.icon, style: const TextStyle(fontSize: 20)),
+                    child: Icon(contact.icon, size: 20, color: contact.color),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -251,15 +251,15 @@ class _ContactSectionState extends State<ContactSection>
 
   List<Widget> _terminalLines(BuildContext context, bool isDark) {
     final lines = [
-      ('$ ', 'whoami', AppTheme.cyberGreen, null),
+      ('\$ ', 'whoami', AppTheme.cyberGreen, null),
       ('  ', 'Gangadhar Poosarla — AppSec Engineer', AppTheme.textSecondary, null),
-      ('$ ', 'cat skills.txt | head -3', AppTheme.cyberGreen, null),
+      ('\$ ', 'cat skills.txt | head -3', AppTheme.cyberGreen, null),
       ('  ', 'VAPT • Threat Modeling • Bug Bounty', AppTheme.textSecondary, null),
-      ('$ ', 'curl -I career --status', AppTheme.cyberGreen, null),
+      ('\$ ', 'curl -I career --status', AppTheme.cyberGreen, null),
       ('  ', 'HTTP/2 200 — OPEN TO OPPORTUNITIES', AppTheme.ironGold, null),
-      ('$ ', 'ping gangadhar', AppTheme.cyberGreen, null),
+      ('\$ ', 'ping gangadhar', AppTheme.cyberGreen, null),
       ('  ', 'gangadharpoosarla8@gmail.com', AppTheme.arcReactor, null),
-      ('$ ', '█', AppTheme.cyberGreen, null),
+      ('\$ ', '█', AppTheme.cyberGreen, null),
     ];
 
     return lines.asMap().entries.map((e) {
@@ -330,7 +330,7 @@ class _ContactSectionState extends State<ContactSection>
 }
 
 class _ContactItem {
-  final String icon;
+  final IconData icon;
   final String label;
   final String value;
   final Color color;
