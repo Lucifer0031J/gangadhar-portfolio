@@ -1,0 +1,121 @@
+%-------------------------
+% Resume 
+% Author: Gangadhar Poosarla
+% Official Role: Information Security Associate
+%------------------------
+
+\documentclass[letterpaper,10pt]{article}
+
+% Layout & typography
+\usepackage[letterpaper,top=0.55in,bottom=0.55in,left=0.6in,right=0.6in]{geometry}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\usepackage[english]{babel}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{microtype}
+\usepackage{titlesec}
+\usepackage{array}
+\usepackage{charter}
+
+% Colors
+\definecolor{accent}{rgb}{0.11,0.33,0.44}
+
+% Section styling
+\titleformat{\section}{\large\bfseries\scshape\color{accent}}{}{0pt}{}[\color{black}\titlerule]
+\titlespacing{\section}{0pt}{5pt}{3pt}
+
+% Compact lists
+\setlist[itemize]{leftmargin=0.15in,itemsep=2.5pt,topsep=3pt,parsep=0pt,partopsep=0pt}
+\setlength{\parskip}{0pt}
+
+% Helpers
+\pdfgentounicode=1
+\urlstyle{same}
+\raggedbottom
+\raggedright
+\setlength{\tabcolsep}{0pt}
+
+% Heading helper
+\newcommand{\ResumeHeading}[4]{%
+  \vspace{2pt}\noindent
+  \begin{tabular*}{\textwidth}{@{\extracolsep{\fill}}p{0.72\textwidth} r}
+    \textbf{#1} & \textbf{#2} \\
+    \textit{#3} & \textit{\small #4} \\
+  \end{tabular*}\vspace{3pt}
+}
+
+\newcommand{\resItem}[1]{\item \small #1}
+
+% ---------- DOCUMENT ----------
+\begin{document}
+
+% Header
+\begin{center}
+  {\huge \textbf{GANGADHAR POOSARLA}}\\[2pt]
+  +91 8106707308 \;|\; \href{mailto:gangadharpoosarla8@gmail.com}{gangadharpoosarla8@gmail.com} \;|\; \href{https://www.linkedin.com/in/gangadhar-poosarla-988524232/}{linkedin.com/in/gangadhar-poosarla}
+\end{center}
+
+% SUMMARY
+\section*{Summary}
+Application Security Analyst with around 1.9 years of experience in web and API VAPT, mobile security testing, secure code review, and custom security tooling development within fintech environments. Hands-on with \textbf{OWASP Top 10, ASVS, and PCI-DSS} compliance workflows. Experienced in building \textbf{Python security automation tools} for DevSecOps, SCA/SBOM vulnerability parsing, HTTP header auditing, and Apache VirtualHost verification. Comfortable working across dev and QA teams to track and close findings.
+
+% CORE COMPETENCIES
+\section*{Core Competencies}
+\textbf{Application Security:} Web \& API VAPT, Mobile App Security (MobSF, Frida), Secure Code Review (Java/Python), SAST/SCA (SonarQube, SBOM), OWASP Top 10, ASVS, MASVS \\
+\textbf{Security Automation \& Tooling:} Python Security Scripting, REST API Automation, OWASP Dependency-Check \& CycloneDX Correlation, Apache Config Auditing \\
+\textbf{Testing \& Assessment:} AuthN/AuthZ flaws, IDOR, SSRF, Insecure Deserialization, Business Logic Testing, API Security, UAT/Pre-prod Reviews \\
+\textbf{Compliance \& Process:} PCI-DSS, RBI Guidelines, Apache APISIX Gateway (Route Access, Rate Limiting), Remediation Tracking, Risk Prioritization \\
+\textbf{Tooling \& Languages:} Python (requests, pandas, openpyxl, ThreadPoolExecutor), Bash, Java, C, Frida (JS), Burp Suite, MobSF, SonarQube, Postman, Wireshark
+
+% WORK EXPERIENCE
+\section*{Work Experience}
+
+\ResumeHeading{Information Security Associate}{Jul 2024 -- Present}{Yalamanchili Solutions for Payments}{Visakhapatnam, India}
+\begin{itemize}
+  \resItem{Conducted VAPT for \textbf{40+ web and API applications} in UAT/pre-prod environments, aligned to \textbf{OWASP Top 10, ASVS, and PCI-DSS} requirements.}
+  \resItem{Developed a Python-based \textbf{DevSecOps SCA \& Supply Chain Pipeline} integrating Nexus REST APIs, binary streaming retrievers, and an OWASP Dependency-Check/CycloneDX SBOM parser to automate SHA-512 hashing, PURL/CVSS mapping, and clean vs. vulnerable dependency reporting for DevOps.}
+  \resItem{Engineered a multi-threaded \textbf{Security \& Performance Headers Auditor} (Python + openpyxl) with fallback execution mechanics (\textit{requests} $\rightarrow$ \textit{curl} $\rightarrow$ \textit{wget}) and policy scoring to automate header validation across enterprise endpoints with styled Excel reports.}
+  \resItem{Built an automated \textbf{Apache Config \& URL Master Inventory Verifier} in Python parsing VirtualHost rules (\textit{ProxyPass}, \textit{Location}, regex) and cross-referencing master sheets to detect missing/inactive contexts, domain mismatches, and IP CIDR whitelist errors.}
+  \resItem{Identified vulnerabilities including \textbf{authentication bypass, IDOR, SSRF, insecure deserialization, and business logic flaws} during dynamic testing.}
+  \resItem{Tracked and followed up on high/critical findings with dev and QA teams, contributing to consistent improvement in closure rates within agreed SLAs.}
+  \resItem{Performed secure code reviews (Java/Python) for new features, helping reduce recurring vulnerability patterns over time.}
+  \resItem{Participated in \textbf{PCI-DSS \& RBI compliance} reviews for UAT and pre-production sign-off processes.}
+  \resItem{Led trial environment deployment of \textbf{Apache APISIX} as an API gateway and security layer; coordinating with stakeholders for production rollout pending approval --- covering route-level access control, rate limiting, and API traffic inspection.}
+  \resItem{Supported SAST and SCA reviews using \textbf{SonarQube and SBOM} tooling as part of the secure development workflow.}
+  \resItem{Prepared and presented detailed VAPT reports with risk-rated findings and remediation guidance to development and QA stakeholders.}
+\end{itemize}
+
+\ResumeHeading{Android Development Intern}{Nov 2023 -- Jan 2024}{WiSeNet Automation Pvt. Ltd.}{Visakhapatnam, India}
+\begin{itemize}
+  \resItem{Contributed to UI/UX improvements and performance fixes that meaningfully improved app responsiveness and user adoption.}
+\end{itemize}
+
+\ResumeHeading{Independent Vulnerability Research}{2021 -- 2024}{Bug Bounty \& Responsible Disclosure}{Student Period}
+\begin{itemize}
+  \resItem{Identified and responsibly disclosed \textbf{25+ vulnerabilities} across targets including a college portal, FacePrep, and SVR Travels during undergraduate studies.}
+  \resItem{Findings covered \textbf{authentication weaknesses, session issues, and access control flaws}; all reported through responsible disclosure.}
+\end{itemize}
+
+% PROJECTS
+\vspace{4pt}
+\section*{Security Projects}
+\begin{itemize}
+  \resItem{\textbf{DevSecOps SCA \& Supply Chain Automation Pipeline (Python, Nexus API, CycloneDX, OWASP Dependency-Check)} — Automated Nexus inventory extraction, JAR streaming, SBOM parsing, SHA-512 hashing, and clean vs. vulnerable dependency segregation into styled HTML/CSV reports.}
+  \resItem{\textbf{Multi-Threaded Security Header Auditor (Python, ThreadPoolExecutor, openpyxl)} — High-throughput HTTP security header scanner featuring fallback execution mechanics, policy scoring, and automated Excel report generation.}
+  \resItem{\textbf{Apache VirtualHost \& Master Sheet Audit Engine (Python, IPv4/v6 CIDR Parsing)} — Automated verification engine parsing Apache proxy rules and cross-referencing master Excel inventories for IP subnet and route discrepancies.}
+  \resItem{\textbf{Mobile App Dynamic Security Audit Framework (Python, Frida, Android)} — Dynamic binary instrumentation runner executing custom JavaScript hooks to inspect Android app runtime behaviors against mobile security checklists.}
+  \resItem{\textbf{Geo-fencing Access Control Tool} — Implemented region-based access enforcement using \textbf{MaxMind GeoIP + Apache} configuration; tested in a controlled lab environment.}
+  \resItem{\textbf{DKMS — Quantum-Resistant Decentralized KMS} — Research project exploring decentralized key management using \textbf{Shamir's Secret Sharing and CRYSTALS-Kyber}; includes basic threat modeling.}
+  \resItem{\textbf{Decentralized DNS Prototype (Ethereum)} — Research prototype exploring DNS spoofing mitigation via blockchain; independently \textbf{copyrighted} (L-139347/2023).}
+\end{itemize}
+
+% CERTIFICATIONS
+\section*{Certifications}
+\textbf{Certified Threat Intelligence \& Governance Analyst (CTIGA)} — Red Team Leaders — Jan 2026
+
+% EDUCATION
+\section*{Education}
+\textbf{B.Tech in Information Technology} — GMRIT — Jun 2024
+
+\end{document}
