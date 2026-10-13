@@ -13,6 +13,7 @@ import '../sections/contact_section.dart';
 import '../sections/research_section.dart';
 import '../widgets/common_widgets.dart';
 import '../widgets/jarvis_dialog.dart';
+import '../utils/jarvis_voice.dart';
 
 class HomeScreen extends StatefulWidget {
   final VoidCallback onThemeToggle;
@@ -34,6 +35,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   bool _showFab = false;
   bool _navVisible = true;
   late AnimationController _navAnim;
+  int _logoTaps = 0;
+
+  void _onLogoTap() {
+    _logoTaps++;
+    if (_logoTaps >= 5) {
+      JarvisVoice.speak("Welcome to Stark Tower, sir. Global defense systems online.");
+      _logoTaps = 0;
+    }
+  }
 
   // Section keys for scrolling
   final List<GlobalKey> _sectionKeys = List.generate(8, (_) => GlobalKey());
@@ -228,39 +238,42 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
             child: Row(
               children: [
                 // Logo
-                Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: AppTheme.arcReactor.withOpacity(0.1),
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
-                      ),
-                      child: Center(
-                        child: Text(
-                          'GP',
-                          style: GoogleFonts.rajdhani(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w700,
-                            color: AppTheme.arcReactor,
-                            letterSpacing: 1,
+                GestureDetector(
+                  onTap: _onLogoTap,
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 36,
+                        height: 36,
+                        decoration: BoxDecoration(
+                          color: AppTheme.arcReactor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'GP',
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.arcReactor,
+                              letterSpacing: 1,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    const SizedBox(width: 10),
-                    Text(
-                      'GANGADHAR',
-                      style: GoogleFonts.rajdhani(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w700,
-                        color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
-                        letterSpacing: 3,
+                      const SizedBox(width: 10),
+                      Text(
+                        'GANGADHAR',
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                          letterSpacing: 3,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
                 const Spacer(),
                 // Nav items
@@ -431,21 +444,24 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Container(
-                    width: 50,
-                    height: 50,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: AppTheme.arcReactor.withOpacity(0.1),
-                      border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4), width: 2),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'GP',
-                        style: GoogleFonts.rajdhani(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppTheme.arcReactor,
+                  GestureDetector(
+                    onTap: _onLogoTap,
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: AppTheme.arcReactor.withOpacity(0.1),
+                        border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4), width: 2),
+                      ),
+                      child: Center(
+                        child: Text(
+                          'GP',
+                          style: GoogleFonts.rajdhani(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            color: AppTheme.arcReactor,
+                          ),
                         ),
                       ),
                     ),

@@ -4,9 +4,31 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
+import '../utils/jarvis_voice.dart';
 
-class CertEducationSection extends StatelessWidget {
+class CertEducationSection extends StatefulWidget {
   const CertEducationSection({super.key});
+
+  @override
+  State<CertEducationSection> createState() => _CertEducationSectionState();
+}
+
+class _CertEducationSectionState extends State<CertEducationSection> {
+  int _copyrightTaps = 0;
+  bool _showCopyrightEgg = false;
+
+  void _triggerCopyrightEasterEgg() {
+    setState(() => _copyrightTaps++);
+    if (_copyrightTaps >= 3) {
+      setState(() => _showCopyrightEgg = true);
+      JarvisVoice.speak(
+          "Intellectual property verified. Government of India copyright registration L-139347/2023. Decentralized DNS security architecture on record, sir.");
+      Future.delayed(const Duration(seconds: 7), () {
+        if (mounted) setState(() => _showCopyrightEgg = false);
+      });
+      _copyrightTaps = 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,7 +122,7 @@ class CertEducationSection extends StatelessWidget {
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
                               color: AppTheme.ironGold,
-                              letterSpacing: 2,
+                              letterSpacing: 1.5,
                             ),
                           ),
                         ),
@@ -110,48 +132,33 @@ class CertEducationSection extends StatelessWidget {
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
                             fontWeight: FontWeight.w600,
-                            height: 1.3,
                           ),
                         ),
-                        const SizedBox(height: 4),
-                        Row(
-                          children: [
-                            Text(
-                              cert.issuer,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppTheme.ironGold.withOpacity(0.8),
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text('•', style: TextStyle(color: isDark ? AppTheme.textSecondary : Colors.black26)),
-                            const SizedBox(width: 6),
-                            Text(
-                              cert.date,
-                              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: isDark ? AppTheme.textSecondary : Colors.black45,
-                              ),
-                            ),
-                          ],
+                        Text(
+                          '${cert.issuer} • ${cert.date}',
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                            color: isDark ? AppTheme.textSecondary : Colors.black45,
+                          ),
                         ),
                       ],
                     ),
                   ),
                 ],
               ),
-            ).animate().fadeIn(delay: (e.key * 150).ms).slideX(begin: -0.1, end: 0),
-          );
-        }),
+            ),
+          ).animate().fadeIn(delay: (e.key * 150).ms).slideX(begin: -0.1, end: 0);
+        }).toList(),
       ],
     );
   }
 
   Widget _buildEducation(BuildContext context, bool isDark) {
-    final edu = ResumeData.education;
+    const edu = ResumeData.education;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'EDUCATION',
+          'ACADEMIC BACKGROUND',
           style: GoogleFonts.rajdhani(
             fontSize: 13,
             fontWeight: FontWeight.w700,
@@ -241,37 +248,90 @@ class CertEducationSection extends StatelessWidget {
   }
 
   Widget _buildCopyrightBadge(BuildContext context, bool isDark) {
-    return GlowCard(
-      glowColor: AppTheme.cyberGreen,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const Text('⛓️', style: TextStyle(fontSize: 24)),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: _triggerCopyrightEasterEgg,
+      child: GlowCard(
+        glowColor: AppTheme.cyberGreen,
+        child: Column(
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'COPYRIGHT HOLDER',
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.cyberGreen,
-                    letterSpacing: 2,
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  'Decentralized DNS for Spoofing Mitigation (Ethereum) — L-139347/2023',
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isDark ? AppTheme.textSecondary : Colors.black54,
+                const Text('⛓️', style: TextStyle(fontSize: 24)),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'COPYRIGHT HOLDER',
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.cyberGreen,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '[ TAP 3× ]',
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 9,
+                              color: AppTheme.cyberGreen.withOpacity(0.6),
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        'Decentralized DNS for Spoofing Mitigation (Ethereum) — L-139347/2023',
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: isDark ? AppTheme.textSecondary : Colors.black54,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            if (_showCopyrightEgg) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.darkBg.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: AppTheme.cyberGreen.withOpacity(0.5)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.record_voice_over_rounded, size: 14, color: AppTheme.cyberGreen),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'J.A.R.V.I.S.: Government of India Copyright L-139347/2023 Verified.',
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.cyberGreen,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => JarvisVoice.speak(
+                          "Intellectual property verified. Government of India copyright registration L-139347/2023. Decentralized DNS security architecture on record, sir."),
+                      child: const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.cyberGreen),
+                    ),
+                  ],
+                ),
+              ).animate().fadeIn(duration: 250.ms),
+            ],
+          ],
+        ),
       ),
     ).animate().fadeIn(delay: 600.ms);
   }

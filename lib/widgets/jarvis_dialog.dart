@@ -33,14 +33,6 @@ class _JarvisDialogState extends State<JarvisDialog> {
   ];
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(const Duration(milliseconds: 350), () {
-      if (mounted) JarvisVoice.speak(_messages.first['text']!);
-    });
-  }
-
-  @override
   void dispose() {
     JarvisVoice.stop();
     _controller.dispose();
@@ -59,7 +51,11 @@ class _JarvisDialogState extends State<JarvisDialog> {
       _messages.add({'role': 'jarvis', 'text': reply});
     });
 
-    JarvisVoice.speak(reply);
+    // Check if query is an explicit Stark Easter egg phrase in chat
+    final q = query.toLowerCase();
+    if (q.contains('i am iron man') || q.contains('indian stark')) {
+      JarvisVoice.speak(reply);
+    }
 
     Future.delayed(const Duration(milliseconds: 100), () {
       if (_scrollController.hasClients) {

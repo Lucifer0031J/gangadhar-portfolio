@@ -4,9 +4,31 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
+import '../utils/jarvis_voice.dart';
 
-class AboutSection extends StatelessWidget {
+class AboutSection extends StatefulWidget {
   const AboutSection({super.key});
+
+  @override
+  State<AboutSection> createState() => _AboutSectionState();
+}
+
+class _AboutSectionState extends State<AboutSection> {
+  int _easterEggTaps = 0;
+  bool _showEasterEgg = false;
+
+  void _triggerAboutEasterEgg() {
+    setState(() => _easterEggTaps++);
+    if (_easterEggTaps >= 3) {
+      setState(() => _showEasterEgg = true);
+      JarvisVoice.speak(
+          "Protocol 42: The Indian Stark dossier. Built different. Offensive mindset, defensive mastery. The engineer who builds the lock, then breaks it.");
+      Future.delayed(const Duration(seconds: 8), () {
+        if (mounted) setState(() => _showEasterEgg = false);
+      });
+      _easterEggTaps = 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,39 +114,93 @@ class AboutSection extends StatelessWidget {
 
         const SizedBox(height: 16),
 
-        // Personality card — Iron Man vibe
-        GlowCard(
-          glowColor: AppTheme.ironGold,
-          child: Row(
-            children: [
-              const Icon(Icons.hardware_rounded, size: 32, color: AppTheme.ironGold),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+        // Personality card — Iron Man vibe / Easter Egg trigger
+        GestureDetector(
+          onTap: _triggerAboutEasterEgg,
+          child: GlowCard(
+            glowColor: AppTheme.ironGold,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    Text(
-                      'BUILT DIFFERENT',
-                      style: GoogleFonts.rajdhani(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppTheme.ironGold,
-                        letterSpacing: 2,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      'Offensive mindset. Defensive expertise. The kind of engineer who builds the lock and tries to pick it — just to make sure it\'s unbreakable.',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: isDark ? AppTheme.textSecondary : Colors.black54,
-                        fontStyle: FontStyle.italic,
-                        height: 1.5,
+                    const Icon(Icons.hardware_rounded, size: 32, color: AppTheme.ironGold),
+                    const SizedBox(width: 14),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            children: [
+                              Text(
+                                'BUILT DIFFERENT',
+                                style: GoogleFonts.rajdhani(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppTheme.ironGold,
+                                  letterSpacing: 2,
+                                ),
+                              ),
+                              const Spacer(),
+                              Text(
+                                '[ TAP 3× ]',
+                                style: GoogleFonts.rajdhani(
+                                  fontSize: 9,
+                                  color: AppTheme.ironGold.withOpacity(0.5),
+                                  letterSpacing: 1.5,
+                                ),
+                              ),
+                            ],
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            'Offensive mindset. Defensive expertise. The kind of engineer who builds the lock and tries to pick it — just to make sure it\'s unbreakable.',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                              color: isDark ? AppTheme.textSecondary : Colors.black54,
+                              fontStyle: FontStyle.italic,
+                              height: 1.5,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   ],
                 ),
-              ),
-            ],
+                if (_showEasterEgg) ...[
+                  const SizedBox(height: 14),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppTheme.darkBg.withOpacity(0.9),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: AppTheme.arcReactor.withOpacity(0.5)),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(Icons.record_voice_over_rounded, size: 16, color: AppTheme.arcReactor),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'J.A.R.V.I.S.: "Protocol 42: The Indian Stark dossier. Built different."',
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: AppTheme.arcReactor,
+                              letterSpacing: 1,
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () => JarvisVoice.speak(
+                              "Protocol 42: The Indian Stark dossier. Built different. Offensive mindset, defensive mastery."),
+                          child: const Icon(Icons.volume_up_rounded, size: 16, color: AppTheme.arcReactor),
+                        ),
+                      ],
+                    ),
+                  ).animate().fadeIn(duration: 300.ms),
+                ],
+              ],
+            ),
           ),
         ).animate().fadeIn(delay: 400.ms).slideX(begin: -0.1, end: 0),
       ],

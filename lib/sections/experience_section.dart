@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
+import '../utils/jarvis_voice.dart';
 
 class ExperienceSection extends StatefulWidget {
   const ExperienceSection({super.key});
@@ -14,6 +15,21 @@ class ExperienceSection extends StatefulWidget {
 
 class _ExperienceSectionState extends State<ExperienceSection> {
   int _expanded = 0;
+  int _bountyTaps = 0;
+  bool _showBountyEgg = false;
+
+  void _triggerBountyEasterEgg() {
+    setState(() => _bountyTaps++);
+    if (_bountyTaps >= 3) {
+      setState(() => _showBountyEgg = true);
+      JarvisVoice.speak(
+          "Target acquired. Over thirty critical vulnerabilities neutralized in the wild. Bug bounty protocol confirmed.");
+      Future.delayed(const Duration(seconds: 7), () {
+        if (mounted) setState(() => _showBountyEgg = false);
+      });
+      _bountyTaps = 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -221,44 +237,97 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   }
 
   Widget _buildBugBountyBanner(BuildContext context, bool isDark) {
-    return GlowCard(
-      glowColor: AppTheme.ironGold,
-      child: Row(
-        children: [
-          Container(
-            padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppTheme.ironGold.withOpacity(0.15),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Text('🏆', style: TextStyle(fontSize: 30)),
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    return GestureDetector(
+      onTap: _triggerBountyEasterEgg,
+      child: GlowCard(
+        glowColor: AppTheme.ironGold,
+        child: Column(
+          children: [
+            Row(
               children: [
-                Text(
-                  'BUG BOUNTY HUNTER',
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: AppTheme.ironGold,
-                    letterSpacing: 2,
+                Container(
+                  padding: const EdgeInsets.all(12),
+                  decoration: BoxDecoration(
+                    color: AppTheme.ironGold.withOpacity(0.15),
+                    borderRadius: BorderRadius.circular(10),
                   ),
+                  child: const Text('🏆', style: TextStyle(fontSize: 30)),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  '30+ vulnerabilities reported across public programs — 2021 to present. Auth, session, crypto & business logic flaws responsibly disclosed.',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: isDark ? AppTheme.textSecondary : Colors.black54,
-                    height: 1.5,
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'BUG BOUNTY HUNTER',
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 16,
+                              fontWeight: FontWeight.w700,
+                              color: AppTheme.ironGold,
+                              letterSpacing: 2,
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '[ TAP 3× ]',
+                            style: GoogleFonts.rajdhani(
+                              fontSize: 9,
+                              color: AppTheme.ironGold.withOpacity(0.5),
+                              letterSpacing: 1.5,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 4),
+                      Text(
+                        '30+ vulnerabilities reported across public programs — 2021 to present. Auth, session, crypto & business logic flaws responsibly disclosed.',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          color: isDark ? AppTheme.textSecondary : Colors.black54,
+                          height: 1.5,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            if (_showBountyEgg) ...[
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.darkBg.withOpacity(0.9),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: AppTheme.ironGold.withOpacity(0.5)),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(Icons.record_voice_over_rounded, size: 14, color: AppTheme.ironGold),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Text(
+                        'J.A.R.V.I.S.: Target acquired. 30+ vulns neutralized in the wild.',
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.ironGold,
+                          letterSpacing: 1,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => JarvisVoice.speak(
+                          "Target acquired. Over thirty critical vulnerabilities neutralized in the wild. Bug bounty protocol confirmed."),
+                      child: const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.ironGold),
+                    ),
+                  ],
+                ),
+              ).animate().fadeIn(duration: 250.ms),
+            ],
+          ],
+        ),
       ),
     ).animate().fadeIn(delay: 500.ms).slideY(begin: 0.1, end: 0);
   }

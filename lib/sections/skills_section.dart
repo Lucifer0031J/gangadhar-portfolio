@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
+import '../utils/jarvis_voice.dart';
 
 class SkillsSection extends StatefulWidget {
   const SkillsSection({super.key});
@@ -14,6 +15,21 @@ class SkillsSection extends StatefulWidget {
 
 class _SkillsSectionState extends State<SkillsSection> {
   int _selectedCategory = 0;
+  int _headerTaps = 0;
+  bool _showSkillsEgg = false;
+
+  void _triggerSkillsEasterEgg() {
+    setState(() => _headerTaps++);
+    if (_headerTaps >= 3) {
+      setState(() => _showSkillsEgg = true);
+      JarvisVoice.speak(
+          "Tactical operational systems running at 100 percent. Web, API, mobile, and DevSecOps defenses secured, sir.");
+      Future.delayed(const Duration(seconds: 7), () {
+        if (mounted) setState(() => _showSkillsEgg = false);
+      });
+      _headerTaps = 0;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,11 +41,47 @@ class _SkillsSectionState extends State<SkillsSection> {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
       child: Column(
         children: [
-          const SectionHeader(
-            title: 'Operational Capabilities',
-            subtitle: 'System tools and proficiencies',
-            accentColor: AppTheme.ironGold,
+          GestureDetector(
+            onTap: _triggerSkillsEasterEgg,
+            child: const SectionHeader(
+              title: 'Operational Capabilities',
+              subtitle: 'System tools and proficiencies',
+              accentColor: AppTheme.ironGold,
+            ),
           ),
+          if (_showSkillsEgg) ...[
+            const SizedBox(height: 12),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppTheme.darkCard,
+                borderRadius: BorderRadius.circular(8),
+                border: Border.all(color: AppTheme.cyberGreen.withOpacity(0.5)),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.record_voice_over_rounded, size: 14, color: AppTheme.cyberGreen),
+                  const SizedBox(width: 8),
+                  Text(
+                    'J.A.R.V.I.S.: Tactical telemetry 100% operational.',
+                    style: GoogleFonts.rajdhani(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: AppTheme.cyberGreen,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  InkWell(
+                    onTap: () => JarvisVoice.speak(
+                        "Tactical operational systems running at 100 percent. Web, API, mobile, and DevSecOps defenses secured, sir."),
+                    child: const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.cyberGreen),
+                  ),
+                ],
+              ),
+            ).animate().fadeIn(duration: 300.ms),
+          ],
           const SizedBox(height: 40),
 
           // Category Selector
