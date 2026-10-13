@@ -8,6 +8,7 @@ import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
 import '../widgets/jarvis_dialog.dart';
+import '../utils/jarvis_voice.dart';
 
 class HeroSection extends StatefulWidget {
   const HeroSection({super.key});
@@ -22,6 +23,7 @@ class _HeroSectionState extends State<HeroSection>
   late AnimationController _rotateCtrl;
   late AnimationController _particleCtrl;
   int _tapCount = 0;
+  int _easterEggIndex = 0;
   bool _showEasterEgg = false;
   String _easterEggText = '';
   final _random = Random();
@@ -55,12 +57,18 @@ class _HeroSectionState extends State<HeroSection>
 
   void _handleAvatarTap() {
     setState(() => _tapCount++);
-    if (_tapCount == 5) {
+    if (_tapCount >= 5) {
+      final quote = ResumeData.easterEggs[_easterEggIndex % ResumeData.easterEggs.length];
+      _easterEggIndex++;
       setState(() {
         _showEasterEgg = true;
-        _easterEggText = ResumeData.easterEggs[0];
+        _easterEggText = quote;
       });
-      Future.delayed(const Duration(seconds: 4), () {
+
+      // Vocalize via J.A.R.V.I.S. British accent
+      JarvisVoice.speak("Arc reactor core stabilized. $quote");
+
+      Future.delayed(const Duration(seconds: 7), () {
         if (mounted) setState(() => _showEasterEgg = false);
       });
       _tapCount = 0;
@@ -536,34 +544,105 @@ class _HeroSectionState extends State<HeroSection>
 
   Widget _buildEasterEggOverlay(BuildContext context) {
     return Positioned(
-      bottom: 20,
+      bottom: 24,
       left: 20,
       right: 20,
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: AppTheme.darkCard,
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: AppTheme.ironGold.withOpacity(0.5)),
-          boxShadow: [BoxShadow(color: AppTheme.ironGold.withOpacity(0.2), blurRadius: 20)],
-        ),
-        child: Row(
-          children: [
-            const Text('🦾', style: TextStyle(fontSize: 24)),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Text(
-                _easterEggText,
-                style: GoogleFonts.rajdhani(
-                  fontSize: 14,
-                  color: AppTheme.ironGold,
-                  fontStyle: FontStyle.italic,
-                ),
-              ),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 700),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
+            decoration: BoxDecoration(
+              color: AppTheme.darkCard,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: AppTheme.ironGold.withOpacity(0.6), width: 1.5),
+              boxShadow: [
+                BoxShadow(
+                  color: AppTheme.ironGold.withOpacity(0.25),
+                  blurRadius: 25,
+                  spreadRadius: 2,
+                )
+              ],
             ),
-          ],
+            child: Row(
+              children: [
+                const Text('🦾', style: TextStyle(fontSize: 26)),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                            decoration: BoxDecoration(
+                              color: AppTheme.arcReactor.withOpacity(0.15),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(Icons.record_voice_over_rounded, size: 12, color: AppTheme.arcReactor),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'J.A.R.V.I.S. VOICE ONLINE',
+                                  style: GoogleFonts.rajdhani(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppTheme.arcReactor,
+                                    letterSpacing: 1.5,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          const Spacer(),
+                          InkWell(
+                            onTap: () => JarvisVoice.speak(_easterEggText),
+                            borderRadius: BorderRadius.circular(4),
+                            child: Padding(
+                              padding: const EdgeInsets.all(4),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(Icons.volume_up_rounded, size: 16, color: AppTheme.arcReactor),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    'REPLAY',
+                                    style: GoogleFonts.rajdhani(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.arcReactor,
+                                      letterSpacing: 1,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 6),
+                      Text(
+                        _easterEggText,
+                        style: GoogleFonts.rajdhani(
+                          fontSize: 14,
+                          color: AppTheme.ironGold,
+                          fontStyle: FontStyle.italic,
+                          height: 1.4,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.5, end: 0),
         ),
-      ).animate().fadeIn(duration: 400.ms).slideY(begin: 0.5, end: 0),
+      ),
     );
   }
 }

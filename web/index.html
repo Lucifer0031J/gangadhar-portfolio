@@ -16,6 +16,115 @@
   <link rel="manifest" href="manifest.json">
 </head>
 <body>
+  <!-- J.A.R.V.I.S. British Neural Voice Synthesis Engine -->
+  <script>
+    (function() {
+      let cachedBritishVoice = null;
+
+      function findBritishVoice() {
+        if (!('speechSynthesis' in window)) return null;
+        const voices = window.speechSynthesis.getVoices();
+        if (!voices || voices.length === 0) return null;
+
+        // Preferred UK / British male neural voices (Paul Bettany / J.A.R.V.I.S. cadence)
+        const priorityNames = [
+          'ryan', 'george', 'oliver', 'daniel', 'uk english male', 'arthur', 'alfie', 'natural'
+        ];
+
+        for (const name of priorityNames) {
+          const match = voices.find(v => 
+            (v.lang === 'en-GB' || v.lang === 'en_GB') && 
+            v.name.toLowerCase().includes(name)
+          );
+          if (match) return match;
+        }
+
+        // Any en-GB voice
+        const anyGb = voices.find(v => v.lang === 'en-GB' || v.lang === 'en_GB' || v.lang.startsWith('en-GB'));
+        if (anyGb) return anyGb;
+
+        // Any male English voice
+        const anyMale = voices.find(v => v.lang.startsWith('en') && v.name.toLowerCase().includes('male'));
+        if (anyMale) return anyMale;
+
+        // Fallback to any English voice
+        return voices.find(v => v.lang.startsWith('en')) || voices[0] || null;
+      }
+
+      function initVoices() {
+        if (!('speechSynthesis' in window)) return;
+        cachedBritishVoice = findBritishVoice();
+        if (window.speechSynthesis.onvoiceschanged !== undefined) {
+          window.speechSynthesis.onvoiceschanged = function() {
+            cachedBritishVoice = findBritishVoice();
+          };
+        }
+      }
+
+      function playStarkChime() {
+        try {
+          const AudioContext = window.AudioContext || window.webkitAudioContext;
+          if (!AudioContext) return;
+          const ctx = new AudioContext();
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(587.33, ctx.currentTime);
+          osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.08);
+          gain.gain.setValueAtTime(0.05, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.14);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.14);
+        } catch (_) {}
+      }
+
+      if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
+        initVoices();
+      }
+
+      window.speakJarvis = function(rawText) {
+        if (!('speechSynthesis' in window) || !rawText) return;
+        try {
+          window.speechSynthesis.cancel();
+          playStarkChime();
+
+          // Clean symbols, asterisks, brackets, and emojis for smooth, natural speech
+          let clean = rawText
+            .replace(/[🦾🛡️📜📱🌐🔑🔗🎓🎖️◈✓—–•*#]/g, ' ')
+            .replace(/["'"`]/g, '')
+            .replace(/\s+/g, ' ')
+            .trim();
+
+          if (!clean) return;
+
+          const utterance = new SpeechSynthesisUtterance(clean);
+          const voice = cachedBritishVoice || findBritishVoice();
+          if (voice) {
+            utterance.voice = voice;
+            utterance.lang = voice.lang || 'en-GB';
+          } else {
+            utterance.lang = 'en-GB';
+          }
+
+          utterance.pitch = 0.95;
+          utterance.rate = 1.0;
+          utterance.volume = 1.0;
+
+          window.speechSynthesis.speak(utterance);
+        } catch (e) {
+          console.warn('JARVIS speech error:', e);
+        }
+      };
+
+      window.stopJarvis = function() {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+      };
+    })();
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

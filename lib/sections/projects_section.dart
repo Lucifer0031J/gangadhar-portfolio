@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
+import '../utils/jarvis_voice.dart';
 
 class ProjectsSection extends StatefulWidget {
   const ProjectsSection({super.key});
@@ -15,6 +16,16 @@ class ProjectsSection extends StatefulWidget {
 class _ProjectsSectionState extends State<ProjectsSection> {
   int? _hoveredIndex;
   int? _easterEggIndex;
+
+  void _toggleStarkTake(int idx, Project project) {
+    if (_easterEggIndex == idx) {
+      JarvisVoice.stop();
+      setState(() => _easterEggIndex = null);
+    } else {
+      setState(() => _easterEggIndex = idx);
+      JarvisVoice.speak(project.starkComment);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -71,9 +82,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
       onEnter: (_) => setState(() => _hoveredIndex = idx),
       onExit: (_) => setState(() => _hoveredIndex = null),
       child: GestureDetector(
-        onLongPress: () {
-          setState(() => _easterEggIndex = showEasterEgg ? null : idx);
-        },
+        onLongPress: () => _toggleStarkTake(idx, project),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           decoration: BoxDecoration(
@@ -166,21 +175,29 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
                       const SizedBox(height: 10),
 
-                      // Long press hint
-                      Row(
-                        children: [
-                          Icon(Icons.touch_app_rounded, size: 12,
-                              color: isDark ? AppTheme.textSecondary.withOpacity(0.5) : Colors.black26),
-                          const SizedBox(width: 4),
-                          Text(
-                            'Long press for Stark\'s take',
-                            style: GoogleFonts.inter(
-                              fontSize: 10,
-                              color: isDark ? AppTheme.textSecondary.withOpacity(0.5) : Colors.black26,
-                              fontStyle: FontStyle.italic,
-                            ),
+                      // Long press / tap hint
+                      InkWell(
+                        onTap: () => _toggleStarkTake(idx, project),
+                        borderRadius: BorderRadius.circular(4),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 2),
+                          child: Row(
+                            children: [
+                              Icon(Icons.record_voice_over_rounded, size: 13,
+                                  color: isDark ? AppTheme.arcReactor : const Color(0xFF0D5E8A)),
+                              const SizedBox(width: 5),
+                              Text(
+                                'Tap for J.A.R.V.I.S. & Stark take',
+                                style: GoogleFonts.rajdhani(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: isDark ? AppTheme.arcReactor : const Color(0xFF0D5E8A),
+                                  letterSpacing: 0.5,
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ],
                   ),
@@ -190,14 +207,45 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                   Positioned.fill(
                     child: Container(
                       decoration: BoxDecoration(
-                        color: AppTheme.darkBg.withOpacity(0.92),
+                        color: AppTheme.darkBg.withOpacity(0.95),
                         borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppTheme.ironGold.withOpacity(0.5), width: 1.5),
                       ),
                       padding: const EdgeInsets.all(20),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          const Text('🦾', style: TextStyle(fontSize: 40)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text('🦾', style: TextStyle(fontSize: 28)),
+                              const SizedBox(width: 8),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                                decoration: BoxDecoration(
+                                  color: AppTheme.arcReactor.withOpacity(0.15),
+                                  borderRadius: BorderRadius.circular(4),
+                                  border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                                ),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Icon(Icons.volume_up_rounded, size: 12, color: AppTheme.arcReactor),
+                                    const SizedBox(width: 4),
+                                    Text(
+                                      'J.A.R.V.I.S. AUDIO',
+                                      style: GoogleFonts.rajdhani(
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppTheme.arcReactor,
+                                        letterSpacing: 1.5,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                           const SizedBox(height: 12),
                           Text(
                             project.starkComment,
@@ -207,10 +255,10 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               fontWeight: FontWeight.w600,
                               color: AppTheme.ironGold,
                               fontStyle: FontStyle.italic,
-                              height: 1.5,
+                              height: 1.4,
                             ),
                           ),
-                          const SizedBox(height: 16),
+                          const SizedBox(height: 8),
                           Text(
                             '— Tony Stark, probably',
                             style: GoogleFonts.inter(
@@ -219,24 +267,63 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               fontStyle: FontStyle.italic,
                             ),
                           ),
-                          const SizedBox(height: 20),
-                          GestureDetector(
-                            onTap: () => setState(() => _easterEggIndex = null),
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 6),
-                              decoration: BoxDecoration(
-                                border: Border.all(color: AppTheme.ironGold.withOpacity(0.4)),
+                          const SizedBox(height: 16),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () => JarvisVoice.speak(project.starkComment),
                                 borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                'DISMISS',
-                                style: GoogleFonts.rajdhani(
-                                  fontSize: 12,
-                                  color: AppTheme.ironGold,
-                                  letterSpacing: 2,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                                  margin: const EdgeInsets.only(right: 10),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppTheme.arcReactor.withOpacity(0.5)),
+                                    borderRadius: BorderRadius.circular(6),
+                                    color: AppTheme.arcReactor.withOpacity(0.12),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.arcReactor),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        'REPLAY',
+                                        style: GoogleFonts.rajdhani(
+                                          fontSize: 11,
+                                          fontWeight: FontWeight.w700,
+                                          color: AppTheme.arcReactor,
+                                          letterSpacing: 1,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
+                              InkWell(
+                                onTap: () {
+                                  JarvisVoice.stop();
+                                  setState(() => _easterEggIndex = null);
+                                },
+                                borderRadius: BorderRadius.circular(6),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    border: Border.all(color: AppTheme.ironGold.withOpacity(0.4)),
+                                    borderRadius: BorderRadius.circular(6),
+                                  ),
+                                  child: Text(
+                                    'DISMISS',
+                                    style: GoogleFonts.rajdhani(
+                                      fontSize: 11,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppTheme.ironGold,
+                                      letterSpacing: 1.5,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),

@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
+import '../utils/jarvis_voice.dart';
 
 class JarvisDialog extends StatefulWidget {
   const JarvisDialog({super.key});
@@ -31,15 +32,34 @@ class _JarvisDialogState extends State<JarvisDialog> {
     'Tell me about his VAPT experience',
   ];
 
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(milliseconds: 350), () {
+      if (mounted) JarvisVoice.speak(_messages.first['text']!);
+    });
+  }
+
+  @override
+  void dispose() {
+    JarvisVoice.stop();
+    _controller.dispose();
+    _scrollController.dispose();
+    super.dispose();
+  }
+
   void _sendMessage(String text) {
     if (text.trim().isEmpty) return;
     final query = text.trim();
     _controller.clear();
+    final reply = _generateResponse(query);
 
     setState(() {
       _messages.add({'role': 'user', 'text': query});
-      _messages.add({'role': 'jarvis', 'text': _generateResponse(query)});
+      _messages.add({'role': 'jarvis', 'text': reply});
     });
+
+    JarvisVoice.speak(reply);
 
     Future.delayed(const Duration(milliseconds: 100), () {
       if (_scrollController.hasClients) {

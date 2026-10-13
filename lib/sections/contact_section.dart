@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import '../theme/app_theme.dart';
 import '../data/resume_data.dart';
 import '../widgets/common_widgets.dart';
+import '../utils/jarvis_voice.dart';
 
 class ContactSection extends StatefulWidget {
   const ContactSection({super.key});
@@ -46,7 +47,12 @@ class _ContactSectionState extends State<ContactSection>
   void _handleTerminalTap() {
     setState(() => _easterEggTaps++);
     if (_easterEggTaps >= 7) {
-      setState(() => _showFinalEgg = true);
+      if (!_showFinalEgg) {
+        setState(() => _showFinalEgg = true);
+        JarvisVoice.speak("Security clearance verified. I am Iron Man.");
+      } else {
+        JarvisVoice.speak("I am Iron Man.");
+      }
     }
   }
 
@@ -234,12 +240,55 @@ class _ContactSectionState extends State<ContactSection>
             // Terminal lines
             ..._terminalLines(context, isDark),
             if (_showFinalEgg) ...[
-              const SizedBox(height: 8),
-              Text(
-                '> "I am Iron Man." 🦾',
-                style: GoogleFonts.sourceCodePro(
-                  fontSize: 13,
-                  color: AppTheme.ironGold,
+              const SizedBox(height: 10),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                decoration: BoxDecoration(
+                  color: AppTheme.ironGold.withOpacity(0.12),
+                  borderRadius: BorderRadius.circular(6),
+                  border: Border.all(color: AppTheme.ironGold.withOpacity(0.3)),
+                ),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        '> "I am Iron Man." 🦾',
+                        style: GoogleFonts.sourceCodePro(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                          color: AppTheme.ironGold,
+                        ),
+                      ),
+                    ),
+                    InkWell(
+                      onTap: () => JarvisVoice.speak("I am Iron Man."),
+                      borderRadius: BorderRadius.circular(4),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                        decoration: BoxDecoration(
+                          color: AppTheme.arcReactor.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(4),
+                          border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.volume_up_rounded, size: 12, color: AppTheme.arcReactor),
+                            const SizedBox(width: 4),
+                            Text(
+                              'J.A.R.V.I.S.',
+                              style: GoogleFonts.rajdhani(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                                color: AppTheme.arcReactor,
+                                letterSpacing: 1.2,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ).animate().fadeIn(duration: 600.ms),
             ],
