@@ -33,7 +33,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
     final isWide = MediaQuery.of(context).size.width > 700;
 
     return Container(
-      color: isDark ? const Color(0xFF070E1A) : const Color(0xFFE8F0F8),
+      color: isDark ? const Color(0xFF070E1A) : AppTheme.lightAltBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
       child: Column(
         children: [
@@ -75,6 +75,15 @@ class _ProjectsSectionState extends State<ProjectsSection> {
 
   Widget _buildProjectCard(BuildContext context, bool isDark, int idx, Project project) {
     final color = Color(project.color);
+    final effectiveColor = isDark
+        ? color
+        : (color == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (color == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (color == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : (color == AppTheme.redAlert ? AppTheme.redAlertLight : color))));
     final isHovered = _hoveredIndex == idx;
     final showEasterEgg = _easterEggIndex == idx;
 
@@ -89,14 +98,14 @@ class _ProjectsSectionState extends State<ProjectsSection> {
             color: isDark ? AppTheme.darkCard : Colors.white,
             borderRadius: BorderRadius.circular(16),
             border: Border.all(
-              color: isHovered ? color : color.withOpacity(0.2),
+              color: isHovered ? effectiveColor : effectiveColor.withOpacity(isDark ? 0.25 : 0.35),
               width: isHovered ? 1.5 : 1.0,
             ),
             boxShadow: [
               BoxShadow(
                 color: isHovered
-                    ? color.withOpacity(0.25)
-                    : Colors.black.withOpacity(isDark ? 0.3 : 0.08),
+                    ? effectiveColor.withOpacity(isDark ? 0.25 : 0.2)
+                    : (isDark ? Colors.black.withOpacity(0.3) : const Color(0xFF0A192F).withOpacity(0.06)),
                 blurRadius: isHovered ? 24 : 8,
                 offset: const Offset(0, 4),
               ),
@@ -113,7 +122,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                     height: 3,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [color.withOpacity(0.3), color, color.withOpacity(0.3)],
+                        colors: [effectiveColor.withOpacity(0.3), effectiveColor, effectiveColor.withOpacity(0.3)],
                       ),
                     ),
                   ),
@@ -130,7 +139,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: color.withOpacity(0.12),
+                              color: effectiveColor.withOpacity(0.12),
                               borderRadius: BorderRadius.circular(10),
                             ),
                             child: Text(project.icon, style: const TextStyle(fontSize: 24)),
@@ -142,7 +151,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                               style: GoogleFonts.rajdhani(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
-                                color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                                color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                                 height: 1.3,
                               ),
                             ),
@@ -156,7 +165,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                         child: Text(
                           project.description,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: isDark ? AppTheme.textSecondary : Colors.black54,
+                            color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
                             height: 1.6,
                           ),
                           maxLines: 5,
@@ -170,7 +179,7 @@ class _ProjectsSectionState extends State<ProjectsSection> {
                       Wrap(
                         spacing: 6,
                         runSpacing: 6,
-                        children: project.tags.map((tag) => CyberTag(label: tag, color: color)).toList(),
+                        children: project.tags.map((tag) => CyberTag(label: tag, color: effectiveColor)).toList(),
                       ),
 
                       const SizedBox(height: 10),

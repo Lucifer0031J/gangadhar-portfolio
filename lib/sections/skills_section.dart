@@ -37,7 +37,7 @@ class _SkillsSectionState extends State<SkillsSection> {
     final isWide = MediaQuery.of(context).size.width > 800;
 
     return Container(
-      color: isDark ? const Color(0xFF070E1A) : const Color(0xFFE8F0F8),
+      color: isDark ? const Color(0xFF070E1A) : AppTheme.lightAltBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
       child: Column(
         children: [
@@ -54,21 +54,27 @@ class _SkillsSectionState extends State<SkillsSection> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
               decoration: BoxDecoration(
-                color: AppTheme.darkCard,
+                color: isDark ? AppTheme.darkCard : AppTheme.lightSurface,
                 borderRadius: BorderRadius.circular(8),
-                border: Border.all(color: AppTheme.cyberGreen.withOpacity(0.5)),
+                border: Border.all(color: (isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight).withOpacity(0.5)),
+                boxShadow: [
+                  BoxShadow(
+                    color: (isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight).withOpacity(isDark ? 0.3 : 0.1),
+                    blurRadius: 8,
+                  ),
+                ],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(Icons.record_voice_over_rounded, size: 14, color: AppTheme.cyberGreen),
+                  Icon(Icons.record_voice_over_rounded, size: 14, color: isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight),
                   const SizedBox(width: 8),
                   Text(
                     'J.A.R.V.I.S.: Tactical telemetry 100% operational.',
                     style: GoogleFonts.rajdhani(
                       fontSize: 12,
                       fontWeight: FontWeight.w700,
-                      color: AppTheme.cyberGreen,
+                      color: isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight,
                       letterSpacing: 1,
                     ),
                   ),
@@ -76,7 +82,7 @@ class _SkillsSectionState extends State<SkillsSection> {
                   InkWell(
                     onTap: () => JarvisVoice.speak(
                         "Tactical operational systems running at 100 percent. Web, API, mobile, and DevSecOps defenses secured, sir."),
-                    child: const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.cyberGreen),
+                    child: Icon(Icons.volume_up_rounded, size: 14, color: isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight),
                   ),
                 ],
               ),
@@ -120,7 +126,16 @@ class _SkillsSectionState extends State<SkillsSection> {
           final idx = entry.key;
           final cat = entry.value;
           final selected = idx == _selectedCategory;
-          final color = Color(cat.color);
+          final rawColor = Color(cat.color);
+          final color = isDark
+              ? rawColor
+              : (rawColor.value == AppTheme.arcReactor.value
+                  ? AppTheme.arcReactorLight
+                  : (rawColor.value == AppTheme.ironGold.value
+                      ? AppTheme.ironGoldLight
+                      : (rawColor.value == AppTheme.cyberGreen.value
+                          ? AppTheme.cyberGreenLight
+                          : (rawColor.value == AppTheme.redAlert.value ? AppTheme.redAlertLight : rawColor))));
 
           return GestureDetector(
             onTap: () => setState(() => _selectedCategory = idx),
@@ -129,28 +144,33 @@ class _SkillsSectionState extends State<SkillsSection> {
               margin: const EdgeInsets.only(right: 10),
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
               decoration: BoxDecoration(
-                color: selected ? color : (isDark ? AppTheme.darkCard : Colors.white),
+                color: selected ? color : (isDark ? AppTheme.darkCard : AppTheme.lightSurface),
                 borderRadius: BorderRadius.circular(10),
                 border: Border.all(
-                  color: selected ? color : color.withOpacity(0.3),
+                  color: selected ? color : color.withOpacity(isDark ? 0.3 : 0.45),
                 ),
                 boxShadow: selected
-                    ? [BoxShadow(color: color.withOpacity(0.3), blurRadius: 12)]
-                    : [],
+                    ? [BoxShadow(color: color.withOpacity(isDark ? 0.3 : 0.25), blurRadius: 12)]
+                    : [
+                        if (!isDark)
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.04),
+                            blurRadius: 6,
+                            offset: const Offset(0, 2),
+                          ),
+                      ],
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(_getIconForEmoji(cat.icon), size: 16, color: selected ? (isDark ? AppTheme.darkBg : Colors.white) : color),
+                  Icon(_getIconForEmoji(cat.icon), size: 16, color: selected ? Colors.white : color),
                   const SizedBox(width: 6),
                   Text(
                     cat.name,
                     style: GoogleFonts.rajdhani(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: selected
-                          ? (isDark ? AppTheme.darkBg : Colors.white)
-                          : color,
+                      color: selected ? Colors.white : color,
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -265,35 +285,48 @@ class _SkillsSectionState extends State<SkillsSection> {
         style: GoogleFonts.rajdhani(
           fontSize: 12,
           fontWeight: FontWeight.w700,
-          color: isDark ? AppTheme.textSecondary : Colors.black45,
+          color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
           letterSpacing: 2,
         ),
       ),
       const SizedBox(height: 12),
-      ...competencies.map((c) => Padding(
-        padding: const EdgeInsets.only(bottom: 8),
-        child: GlowCard(
-          glowColor: c.$3,
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            children: [
-              Icon(_getIconForEmoji(c.$1), size: 16, color: c.$3),
-              const SizedBox(width: 8),
-              Expanded(
-                child: Text(
-                  c.$2,
-                  style: GoogleFonts.rajdhani(
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600,
-                    color: c.$3,
-                    letterSpacing: 0.5,
+      ...competencies.map((c) {
+        final raw = c.$3;
+        final color = isDark
+            ? raw
+            : (raw == AppTheme.arcReactor
+                ? AppTheme.arcReactorLight
+                : (raw == AppTheme.ironGold
+                    ? AppTheme.ironGoldLight
+                    : (raw == AppTheme.cyberGreen
+                        ? AppTheme.cyberGreenLight
+                        : (raw == AppTheme.redAlert ? AppTheme.redAlertLight : raw))));
+
+        return Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: GlowCard(
+            glowColor: color,
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+            child: Row(
+              children: [
+                Icon(_getIconForEmoji(c.$1), size: 16, color: color),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    c.$2,
+                    style: GoogleFonts.rajdhani(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: color,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      )),
+        );
+      }),
     ];
   }
 }

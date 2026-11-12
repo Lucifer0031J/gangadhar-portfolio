@@ -62,7 +62,7 @@ class _ContactSectionState extends State<ContactSection>
     final isWide = MediaQuery.of(context).size.width > 800;
 
     return Container(
-      color: isDark ? const Color(0xFF070E1A) : const Color(0xFFE8F0F8),
+      color: isDark ? const Color(0xFF070E1A) : AppTheme.lightAltBg,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
       child: Column(
         children: [
@@ -130,6 +130,16 @@ class _ContactSectionState extends State<ContactSection>
     return Column(
       children: contacts.asMap().entries.map((e) {
         final contact = e.value;
+        final effectiveColor = isDark
+            ? contact.color
+            : (contact.color == AppTheme.arcReactor
+                ? AppTheme.arcReactorLight
+                : (contact.color == AppTheme.ironGold
+                    ? AppTheme.ironGoldLight
+                    : (contact.color == AppTheme.cyberGreen
+                        ? AppTheme.cyberGreenLight
+                        : (contact.color == AppTheme.redAlert ? AppTheme.redAlertLight : contact.color))));
+
         return Padding(
           padding: const EdgeInsets.only(bottom: 12),
           child: GlowCard(
@@ -140,11 +150,12 @@ class _ContactSectionState extends State<ContactSection>
                   width: 44,
                   height: 44,
                   decoration: BoxDecoration(
-                    color: contact.color.withOpacity(0.12),
+                    color: effectiveColor.withOpacity(isDark ? 0.12 : 0.08),
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: effectiveColor.withOpacity(isDark ? 0.25 : 0.4)),
                   ),
                   child: Center(
-                    child: Icon(contact.icon, size: 20, color: contact.color),
+                    child: Icon(contact.icon, size: 20, color: effectiveColor),
                   ),
                 ),
                 const SizedBox(width: 14),
@@ -157,14 +168,15 @@ class _ContactSectionState extends State<ContactSection>
                         style: GoogleFonts.rajdhani(
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
-                          color: contact.color,
+                          color: effectiveColor,
                           letterSpacing: 2,
                         ),
                       ),
                       Text(
                         contact.value,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                          color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
                     ],
@@ -177,17 +189,17 @@ class _ContactSectionState extends State<ContactSection>
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                       decoration: BoxDecoration(
                         color: _copiedField == contact.label
-                            ? contact.color.withOpacity(0.2)
+                            ? effectiveColor.withOpacity(0.2)
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(6),
-                        border: Border.all(color: contact.color.withOpacity(0.3)),
+                        border: Border.all(color: effectiveColor.withOpacity(0.4)),
                       ),
                       child: Text(
                         _copiedField == contact.label ? '✓ COPIED' : 'COPY',
                         style: GoogleFonts.rajdhani(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
-                          color: contact.color,
+                          color: effectiveColor,
                           letterSpacing: 1,
                         ),
                       ),
@@ -202,6 +214,10 @@ class _ContactSectionState extends State<ContactSection>
   }
 
   Widget _buildTerminal(BuildContext context, bool isDark) {
+    final termGreen = isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight;
+    final termGold = isDark ? AppTheme.ironGold : AppTheme.ironGoldLight;
+    final termCyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
+
     return GestureDetector(
       onTap: _handleTerminalTap,
       child: GlowCard(
@@ -231,7 +247,8 @@ class _ContactSectionState extends State<ContactSection>
                   'gangadhar@sec-shell ~ %',
                   style: GoogleFonts.sourceCodePro(
                     fontSize: 11,
-                    color: AppTheme.cyberGreen.withOpacity(0.6),
+                    color: termGreen.withOpacity(0.8),
+                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
@@ -244,9 +261,15 @@ class _ContactSectionState extends State<ContactSection>
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                 decoration: BoxDecoration(
-                  color: AppTheme.ironGold.withOpacity(0.12),
+                  color: termGold.withOpacity(isDark ? 0.12 : 0.08),
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppTheme.ironGold.withOpacity(0.3)),
+                  border: Border.all(color: termGold.withOpacity(0.4)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: termGold.withOpacity(isDark ? 0.2 : 0.1),
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
@@ -255,8 +278,8 @@ class _ContactSectionState extends State<ContactSection>
                         '> "I am Iron Man." 🦾',
                         style: GoogleFonts.sourceCodePro(
                           fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: AppTheme.ironGold,
+                          fontWeight: FontWeight.w700,
+                          color: termGold,
                         ),
                       ),
                     ),
@@ -266,21 +289,21 @@ class _ContactSectionState extends State<ContactSection>
                       child: Container(
                         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
                         decoration: BoxDecoration(
-                          color: AppTheme.arcReactor.withOpacity(0.15),
+                          color: termCyan.withOpacity(0.15),
                           borderRadius: BorderRadius.circular(4),
-                          border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                          border: Border.all(color: termCyan.withOpacity(0.4)),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            const Icon(Icons.volume_up_rounded, size: 12, color: AppTheme.arcReactor),
+                            Icon(Icons.volume_up_rounded, size: 12, color: termCyan),
                             const SizedBox(width: 4),
                             Text(
                               'J.A.R.V.I.S.',
                               style: GoogleFonts.rajdhani(
                                 fontSize: 10,
                                 fontWeight: FontWeight.w700,
-                                color: AppTheme.arcReactor,
+                                color: termCyan,
                                 letterSpacing: 1.2,
                               ),
                             ),
@@ -299,16 +322,21 @@ class _ContactSectionState extends State<ContactSection>
   }
 
   List<Widget> _terminalLines(BuildContext context, bool isDark) {
+    final termGreen = isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight;
+    final termGold = isDark ? AppTheme.ironGold : AppTheme.ironGoldLight;
+    final termCyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
+    final termText = isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight;
+
     final lines = [
-      ('\$ ', 'whoami', AppTheme.cyberGreen, null),
-      ('  ', 'Gangadhar Poosarla — AppSec Engineer', AppTheme.textSecondary, null),
-      ('\$ ', 'cat skills.txt | head -3', AppTheme.cyberGreen, null),
-      ('  ', 'VAPT • Threat Modeling • Bug Bounty', AppTheme.textSecondary, null),
-      ('\$ ', 'curl -I career --status', AppTheme.cyberGreen, null),
-      ('  ', 'HTTP/2 200 — OPEN TO OPPORTUNITIES', AppTheme.ironGold, null),
-      ('\$ ', 'ping gangadhar', AppTheme.cyberGreen, null),
-      ('  ', 'gangadharpoosarla8@gmail.com', AppTheme.arcReactor, null),
-      ('\$ ', '█', AppTheme.cyberGreen, null),
+      ('\$ ', 'whoami', termGreen, null),
+      ('  ', 'Gangadhar Poosarla — AppSec Engineer', termText, null),
+      ('\$ ', 'cat skills.txt | head -3', termGreen, null),
+      ('  ', 'VAPT • Threat Modeling • Bug Bounty', termText, null),
+      ('\$ ', 'curl -I career --status', termGreen, null),
+      ('  ', 'HTTP/2 200 — OPEN TO OPPORTUNITIES', termGold, null),
+      ('\$ ', 'ping gangadhar', termGreen, null),
+      ('  ', 'gangadharpoosarla8@gmail.com', termCyan, null),
+      ('\$ ', '█', termGreen, null),
     ];
 
     return lines.asMap().entries.map((e) {
@@ -317,11 +345,11 @@ class _ContactSectionState extends State<ContactSection>
         padding: const EdgeInsets.only(bottom: 4),
         child: Row(
           children: [
-            Text(l.$1, style: GoogleFonts.sourceCodePro(fontSize: 13, color: l.$3)),
+            Text(l.$1, style: GoogleFonts.sourceCodePro(fontSize: 13, color: l.$3, fontWeight: FontWeight.w600)),
             Expanded(
               child: Text(
                 l.$2,
-                style: GoogleFonts.sourceCodePro(fontSize: 13, color: l.$3),
+                style: GoogleFonts.sourceCodePro(fontSize: 13, color: l.$3, fontWeight: FontWeight.w500),
                 overflow: TextOverflow.ellipsis,
               ),
             ),
@@ -332,15 +360,18 @@ class _ContactSectionState extends State<ContactSection>
   }
 
   Widget _buildFooter(BuildContext context, bool isDark) {
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
+    final green = isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight;
+
     return Column(
       children: [
-        NeonDivider(color: AppTheme.arcReactor.withOpacity(0.3)),
+        NeonDivider(color: cyan.withOpacity(0.3)),
         Text(
           'GANGADHAR POOSARLA',
           style: GoogleFonts.rajdhani(
             fontSize: 22,
             fontWeight: FontWeight.w700,
-            color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+            color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
             letterSpacing: 4,
           ),
         ),
@@ -348,7 +379,8 @@ class _ContactSectionState extends State<ContactSection>
         Text(
           'Application Security Engineer • Bug Bounty Hunter • Researcher',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: AppTheme.arcReactor,
+            color: cyan,
+            fontWeight: FontWeight.w600,
             letterSpacing: 1,
           ),
           textAlign: TextAlign.center,
@@ -360,7 +392,8 @@ class _ContactSectionState extends State<ContactSection>
             '[ TAP TERMINAL 7× FOR A HIDDEN MESSAGE ]',
             style: GoogleFonts.rajdhani(
               fontSize: 10,
-              color: AppTheme.cyberGreen.withOpacity(0.3 + _pulseCtrl.value * 0.3),
+              fontWeight: FontWeight.w600,
+              color: green.withOpacity(0.4 + _pulseCtrl.value * 0.4),
               letterSpacing: 2,
             ),
           ),
@@ -369,8 +402,9 @@ class _ContactSectionState extends State<ContactSection>
         Text(
           '© 2026 Gangadhar Poosarla • Built with Flutter ❤️',
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: isDark ? AppTheme.textSecondary.withOpacity(0.5) : Colors.black26,
+            color: isDark ? AppTheme.textSecondary.withOpacity(0.5) : AppTheme.textSecondaryLight.withOpacity(0.7),
             fontSize: 11,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],

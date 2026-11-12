@@ -2,22 +2,31 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  // ─── Brand Colors ────────────────────────────────────────────────────────────
-  static const Color arcReactor = Color(0xFF00D4FF);    // Tony's arc reactor blue
-  static const Color ironGold   = Color(0xFFFFB300);    // Iron Man gold accent
-  static const Color darkBg     = Color(0xFF050A14);    // Deep space navy
-  static const Color darkSurface= Color(0xFF0D1B2A);    // Card surface
-  static const Color darkCard   = Color(0xFF112233);    // Elevated card
-  static const Color cyberGreen = Color(0xFF00FF94);    // Security green
-  static const Color redAlert   = Color(0xFFFF3B3B);    // Critical/danger
-  static const Color textPrimary  = Color(0xFFE8F4FD);
-  static const Color textSecondary= Color(0xFF8BA3BB);
-  static const Color glowBlue   = Color(0xFF00D4FF);
+  // ─── Core Stark Brand Palette ────────────────────────────────────────────────
+  static const Color arcReactor       = Color(0xFF00D4FF);  // Tony's arc reactor cyan
+  static const Color arcReactorLight  = Color(0xFF0088CC);  // Daylight HUD high-contrast cyan
+  static const Color ironGold         = Color(0xFFFFB300);  // Iron Man gold accent
+  static const Color ironGoldLight    = Color(0xFFC68A00);  // Daylight HUD gold
+  static const Color cyberGreen       = Color(0xFF00FF94);  // Security pass green
+  static const Color cyberGreenLight  = Color(0xFF009B5A);  // Daylight HUD security green
+  static const Color redAlert         = Color(0xFFFF3B3B);  // Critical/danger red
+  static const Color redAlertLight    = Color(0xFFD32F2F);  // Daylight HUD alert red
+
+  // ─── Dark Mode (Night Tactical HUD) ──────────────────────────────────────────
+  static const Color darkBg           = Color(0xFF050A14);  // Deep space obsidian
+  static const Color darkSurface      = Color(0xFF0D1B2A);  // Console surface
+  static const Color darkCard         = Color(0xFF112233);  // Holographic card
+  static const Color textPrimary      = Color(0xFFE8F4FD);
+  static const Color textSecondary    = Color(0xFF8BA3BB);
+  static const Color glowBlue         = Color(0xFF00D4FF);
   
-  // Light theme colors
-  static const Color lightBg      = Color(0xFFF0F6FF);
-  static const Color lightSurface = Color(0xFFFFFFFF);
-  static const Color lightCard    = Color(0xFFE8F0F8);
+  // ─── Light Mode (Daylight Stark HUD / Blueprint Glass) ───────────────────────
+  static const Color lightBg          = Color(0xFFF1F5F9);  // Aerospace titanium platinum
+  static const Color lightSurface     = Color(0xFFFFFFFF);  // Pure frosted HUD glass
+  static const Color lightCard        = Color(0xFFFFFFFF);  // Crisp white HUD plate
+  static const Color lightAltBg       = Color(0xFFE8EEF5);  // Blueprint alternate section
+  static const Color textPrimaryLight = Color(0xFF091426);  // Tactical midnight obsidian
+  static const Color textSecondaryLight=Color(0xFF4A5D73);  // Clear blueprint slate
 
   static ThemeData get darkTheme => ThemeData(
     brightness: Brightness.dark,
@@ -58,16 +67,37 @@ class AppTheme {
     brightness: Brightness.light,
     scaffoldBackgroundColor: lightBg,
     colorScheme: const ColorScheme.light(
-      primary: Color(0xFF0077B6),
-      secondary: ironGold,
+      primary: arcReactorLight,
+      secondary: ironGoldLight,
       surface: lightSurface,
+      error: redAlertLight,
     ),
-    textTheme: _buildTextTheme(const Color(0xFF0D1B2A)),
+    textTheme: _buildTextTheme(textPrimaryLight),
     cardTheme: CardThemeData(
       color: lightSurface,
-      elevation: 2,
-      shadowColor: Colors.black12,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: const BorderSide(color: Color(0xFFCBD5E1), width: 1),
+      ),
+    ),
+    appBarTheme: AppBarTheme(
+      backgroundColor: Colors.transparent,
+      elevation: 0,
+      titleTextStyle: GoogleFonts.rajdhani(
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+        color: textPrimaryLight,
+        letterSpacing: 2,
+      ),
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: arcReactorLight,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        textStyle: GoogleFonts.rajdhani(fontWeight: FontWeight.bold, letterSpacing: 1.5),
+      ),
     ),
   );
 

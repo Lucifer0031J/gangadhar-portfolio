@@ -95,9 +95,9 @@ class _HeroSectionState extends State<HeroSection>
                   const Color(0xFF020507),
                 ]
               : [
-                  const Color(0xFFDEEFF8),
-                  const Color(0xFFF0F6FF),
-                  const Color(0xFFFFFFFF),
+                  const Color(0xFFE2E8F0),
+                  const Color(0xFFEDF2F7),
+                  const Color(0xFFF8FAFC),
                 ],
         ),
       ),
@@ -125,7 +125,11 @@ class _HeroSectionState extends State<HeroSection>
 
   Widget _buildGridOverlay(bool isDark) {
     return CustomPaint(
-      painter: _GridPainter(isDark ? AppTheme.arcReactor.withOpacity(0.04) : Colors.blue.withOpacity(0.04)),
+      painter: _GridPainter(
+        isDark
+            ? AppTheme.arcReactor.withOpacity(0.04)
+            : AppTheme.arcReactorLight.withOpacity(0.08),
+      ),
     );
   }
 
@@ -258,7 +262,7 @@ class _HeroSectionState extends State<HeroSection>
                     textStyle: GoogleFonts.rajdhani(
                       fontSize: 20,
                       fontWeight: FontWeight.w600,
-                      color: AppTheme.arcReactor,
+                      color: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight,
                       letterSpacing: 1,
                       height: 1.5,
                     ),
@@ -429,6 +433,8 @@ class _HeroSectionState extends State<HeroSection>
   }
 
   Widget _buildAvatarSection(BuildContext context, bool isDark) {
+    final reactorColor = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
+
     return GestureDetector(
       onTap: _handleAvatarTap,
       child: SizedBox(
@@ -448,11 +454,11 @@ class _HeroSectionState extends State<HeroSection>
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     border: Border.all(
-                      color: AppTheme.arcReactor.withOpacity(0.2),
+                      color: reactorColor.withOpacity(isDark ? 0.2 : 0.35),
                       width: 1,
                     ),
                   ),
-                  child: CustomPaint(painter: _DashedCirclePainter(AppTheme.arcReactor)),
+                  child: CustomPaint(painter: _DashedCirclePainter(reactorColor)),
                 ),
               ),
             ),
@@ -465,7 +471,7 @@ class _HeroSectionState extends State<HeroSection>
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   border: Border.all(
-                    color: AppTheme.arcReactor.withOpacity(0.1 + _pulseCtrl.value * 0.2),
+                    color: reactorColor.withOpacity(0.1 + _pulseCtrl.value * 0.25),
                     width: 2,
                   ),
                 ),
@@ -481,15 +487,17 @@ class _HeroSectionState extends State<HeroSection>
                   height: 190,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: const LinearGradient(
+                    gradient: LinearGradient(
                       begin: Alignment.topLeft,
                       end: Alignment.bottomRight,
-                      colors: [Color(0xFF1A3A5C), Color(0xFF0D1B2A)],
+                      colors: isDark
+                          ? const [Color(0xFF1A3A5C), Color(0xFF0D1B2A)]
+                          : const [Color(0xFFFFFFFF), Color(0xFFE2E8F0)],
                     ),
-                    border: Border.all(color: AppTheme.arcReactor.withOpacity(0.5), width: 2),
+                    border: Border.all(color: reactorColor.withOpacity(isDark ? 0.5 : 0.7), width: 2),
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.arcReactor.withOpacity(0.3),
+                        color: reactorColor.withOpacity(isDark ? 0.3 : 0.2),
                         blurRadius: 30,
                         spreadRadius: 5,
                       ),
@@ -501,12 +509,12 @@ class _HeroSectionState extends State<HeroSection>
                       Text('GP', style: GoogleFonts.rajdhani(
                         fontSize: 56,
                         fontWeight: FontWeight.w700,
-                        color: AppTheme.arcReactor,
+                        color: reactorColor,
                         letterSpacing: 4,
                       )),
                       Text('[ TAP 5× ]', style: GoogleFonts.rajdhani(
                         fontSize: 9,
-                        color: AppTheme.arcReactor.withOpacity(0.4),
+                        color: reactorColor.withOpacity(isDark ? 0.4 : 0.7),
                         letterSpacing: 2,
                       )),
                     ],
@@ -524,10 +532,10 @@ class _HeroSectionState extends State<HeroSection>
                   height: 16,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    color: AppTheme.arcReactor,
+                    color: reactorColor,
                     boxShadow: [
                       BoxShadow(
-                        color: AppTheme.arcReactor.withOpacity(0.4 + _pulseCtrl.value * 0.6),
+                        color: reactorColor.withOpacity(0.4 + _pulseCtrl.value * 0.6),
                         blurRadius: 12 + _pulseCtrl.value * 8,
                         spreadRadius: 2,
                       ),

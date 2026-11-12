@@ -69,6 +69,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
   }
 
   Widget _buildCertifications(BuildContext context, bool isDark) {
+    final gold = isDark ? AppTheme.ironGold : AppTheme.ironGoldLight;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -77,7 +78,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
           style: GoogleFonts.rajdhani(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: isDark ? AppTheme.textSecondary : Colors.black45,
+            color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
             letterSpacing: 3,
           ),
         ),
@@ -95,10 +96,10 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                     height: 56,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppTheme.ironGold.withOpacity(0.3), AppTheme.ironGold.withOpacity(0.1)],
+                        colors: [gold.withOpacity(0.3), gold.withOpacity(0.1)],
                       ),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppTheme.ironGold.withOpacity(0.3)),
+                      border: Border.all(color: gold.withOpacity(isDark ? 0.3 : 0.5)),
                     ),
                     child: Center(
                       child: Text(cert.icon, style: const TextStyle(fontSize: 26)),
@@ -112,16 +113,16 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                         Container(
                           padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: AppTheme.ironGold.withOpacity(0.15),
+                            color: gold.withOpacity(isDark ? 0.15 : 0.1),
                             borderRadius: BorderRadius.circular(4),
-                            border: Border.all(color: AppTheme.ironGold.withOpacity(0.3)),
+                            border: Border.all(color: gold.withOpacity(isDark ? 0.3 : 0.5)),
                           ),
                           child: Text(
                             cert.acronym,
                             style: GoogleFonts.rajdhani(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.ironGold,
+                              color: gold,
                               letterSpacing: 1.5,
                             ),
                           ),
@@ -130,14 +131,15 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                         Text(
                           cert.name,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                            color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
                         Text(
                           '${cert.issuer} • ${cert.date}',
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: isDark ? AppTheme.textSecondary : Colors.black45,
+                            color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
@@ -154,6 +156,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
 
   Widget _buildEducation(BuildContext context, bool isDark) {
     const edu = ResumeData.education;
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -162,7 +165,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
           style: GoogleFonts.rajdhani(
             fontSize: 13,
             fontWeight: FontWeight.w700,
-            color: isDark ? AppTheme.textSecondary : Colors.black45,
+            color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
             letterSpacing: 3,
           ),
         ),
@@ -178,10 +181,10 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                     height: 56,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [AppTheme.arcReactor.withOpacity(0.3), AppTheme.arcReactor.withOpacity(0.1)],
+                        colors: [cyan.withOpacity(0.3), cyan.withOpacity(0.1)],
                       ),
                       borderRadius: BorderRadius.circular(10),
-                      border: Border.all(color: AppTheme.arcReactor.withOpacity(0.3)),
+                      border: Border.all(color: cyan.withOpacity(isDark ? 0.3 : 0.5)),
                     ),
                     child: Center(
                       child: Text(edu.icon, style: const TextStyle(fontSize: 26)),
@@ -195,7 +198,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                         Text(
                           edu.degree,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                            color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                             fontWeight: FontWeight.w600,
                             height: 1.3,
                           ),
@@ -204,7 +207,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                         Text(
                           edu.institution,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: AppTheme.arcReactor,
+                            color: cyan,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -212,7 +215,8 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                         Text(
                           edu.period,
                           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: isDark ? AppTheme.textSecondary : Colors.black45,
+                            color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
+                            fontWeight: FontWeight.w500,
                           ),
                         ),
                       ],
@@ -225,16 +229,17 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: AppTheme.arcReactor.withOpacity(0.06),
+                  color: cyan.withOpacity(isDark ? 0.06 : 0.08),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: AppTheme.arcReactor.withOpacity(0.2)),
+                  border: Border.all(color: cyan.withOpacity(isDark ? 0.2 : 0.4)),
                 ),
                 child: Text(
                   '"The best engineers are the ones who never stop learning — I graduated, then kept going."',
                   textAlign: TextAlign.center,
                   style: GoogleFonts.rajdhani(
                     fontSize: 13,
-                    color: AppTheme.arcReactor.withOpacity(0.8),
+                    color: cyan,
+                    fontWeight: FontWeight.w600,
                     fontStyle: FontStyle.italic,
                     height: 1.5,
                   ),
@@ -248,6 +253,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
   }
 
   Widget _buildCopyrightBadge(BuildContext context, bool isDark) {
+    final green = isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight;
     return GestureDetector(
       onTap: _triggerCopyrightEasterEgg,
       child: GlowCard(
@@ -270,7 +276,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                             style: GoogleFonts.rajdhani(
                               fontSize: 12,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.cyberGreen,
+                              color: green,
                               letterSpacing: 2,
                             ),
                           ),
@@ -279,7 +285,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                             '[ TAP 3× ]',
                             style: GoogleFonts.rajdhani(
                               fontSize: 9,
-                              color: AppTheme.cyberGreen.withOpacity(0.6),
+                              color: green.withOpacity(0.6),
                               letterSpacing: 1.5,
                             ),
                           ),
@@ -289,7 +295,8 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                       Text(
                         'Decentralized DNS for Spoofing Mitigation (Ethereum) — L-139347/2023',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: isDark ? AppTheme.textSecondary : Colors.black54,
+                          color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],
@@ -302,13 +309,19 @@ class _CertEducationSectionState extends State<CertEducationSection> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: AppTheme.darkBg.withOpacity(0.9),
+                  color: isDark ? AppTheme.darkBg.withOpacity(0.9) : AppTheme.lightSurface,
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppTheme.cyberGreen.withOpacity(0.5)),
+                  border: Border.all(color: green.withOpacity(0.5)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: green.withOpacity(isDark ? 0.3 : 0.1),
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.record_voice_over_rounded, size: 14, color: AppTheme.cyberGreen),
+                    Icon(Icons.record_voice_over_rounded, size: 14, color: green),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -316,7 +329,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                         style: GoogleFonts.rajdhani(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.cyberGreen,
+                          color: green,
                           letterSpacing: 1,
                         ),
                       ),
@@ -324,7 +337,7 @@ class _CertEducationSectionState extends State<CertEducationSection> {
                     InkWell(
                       onTap: () => JarvisVoice.speak(
                           "Intellectual property verified. Government of India copyright registration L-139347/2023. Decentralized DNS security architecture on record, sir."),
-                      child: const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.cyberGreen),
+                      child: Icon(Icons.volume_up_rounded, size: 14, color: green),
                     ),
                   ],
                 ),

@@ -129,13 +129,13 @@ class ResumeData {
 
   static const List<Project> projects = [
     Project(
-      title: 'J.A.R.V.I.S. — On-Device Edge AI Security Assistant',
+      title: 'J.A.R.V.I.S. — On-Device Autonomous AppSec Agent',
       description:
-          'Private, voice-controlled tactical AI assistant engineered 100% on consumer silicon (NVIDIA GTX 1650 4GB GPU + 8GB RAM). Integrates local Ollama inference (Qwen 2.5 3B / Llama 3.1 8B), Microsoft Edge neural TTS, live hardware telemetry, and dual HTTP/HTTPS gateways for zero-cloud AI red teaming and security research.',
-      tags: ['Ollama (Local LLM)', 'Edge Neural TTS', 'Python / Flask', 'AI Red Teaming', 'Web Speech API', 'Hardware Telemetry'],
+          'Air-gapped tactical AI security assistant engineered 100% on consumer silicon (NVIDIA GTX 1650 4GB GPU + 8GB RAM). Features an autonomous ReAct (Reasoning & Action) agentic loop, structured ToolSpecs, and quantized local SLMs (Qwen 2.5 3B / Llama 3.1 8B). Capable of autonomously executing HTTP security header audits, network virtual host recon, and OWASP vulnerability mapping with zero corporate data leakage to cloud LLMs.',
+      tags: ['Autonomous AI Agent', 'ReAct Loop', 'Ollama SLM', 'Edge AI', 'AppSec Automation', 'Model Context Protocol (MCP)'],
       icon: '🦾',
       color: 0xFF00D4FF,
-      starkComment: 'Engineered on budget hardware because real security pros don\'t trust cloud black-boxes.',
+      starkComment: 'Engineered on budget silicon because real security pros never leak proprietary code to cloud black-boxes.',
     ),
     Project(
       title: 'DevSecOps SCA & Supply Chain Pipeline',

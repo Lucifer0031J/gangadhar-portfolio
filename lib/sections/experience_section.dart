@@ -58,7 +58,16 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   }
 
   Widget _buildTimelineCard(BuildContext context, bool isDark, int idx, MissionLog exp) {
-    final color = Color(exp.color);
+    final rawColor = Color(exp.color);
+    final color = isDark
+        ? rawColor
+        : (rawColor.value == 0xFF00F0FF || rawColor.value == AppTheme.arcReactor.value
+            ? AppTheme.arcReactorLight
+            : (rawColor.value == 0xFFFFD700 || rawColor.value == AppTheme.ironGold.value
+                ? AppTheme.ironGoldLight
+                : (rawColor.value == 0xFF64FFDA || rawColor.value == AppTheme.cyberGreen.value
+                    ? AppTheme.cyberGreenLight
+                    : rawColor)));
     final isExpanded = _expanded == idx;
     final isCurrent = exp.status == 'ACTIVE';
 
@@ -78,7 +87,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                   color: isCurrent ? color : color.withOpacity(0.5),
                   border: Border.all(color: color, width: 2),
                   boxShadow: isCurrent
-                      ? [BoxShadow(color: color.withOpacity(0.5), blurRadius: 8)]
+                      ? [BoxShadow(color: color.withOpacity(isDark ? 0.5 : 0.3), blurRadius: 8)]
                       : [],
                 ),
               ),
@@ -91,7 +100,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                     gradient: LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: [color.withOpacity(0.5), Colors.transparent],
+                      colors: [color.withOpacity(isDark ? 0.5 : 0.35), Colors.transparent],
                     ),
                   ),
                 ),
@@ -119,9 +128,9 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                                   Container(
                                     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                                     decoration: BoxDecoration(
-                                      color: color.withOpacity(0.15),
+                                      color: color.withOpacity(isDark ? 0.15 : 0.1),
                                       borderRadius: BorderRadius.circular(4),
-                                      border: Border.all(color: color.withOpacity(0.4)),
+                                      border: Border.all(color: color.withOpacity(isDark ? 0.4 : 0.5)),
                                     ),
                                     child: Text(
                                       exp.status,
@@ -140,7 +149,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                                       style: GoogleFonts.rajdhani(
                                         fontSize: 18,
                                         fontWeight: FontWeight.w700,
-                                        color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                                        color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                                         letterSpacing: 0.5,
                                       ),
                                     ),
@@ -159,22 +168,24 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                               Row(
                                 children: [
                                   Icon(Icons.calendar_today_outlined,
-                                      size: 12, color: isDark ? AppTheme.textSecondary : Colors.black45),
+                                      size: 12, color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight),
                                   const SizedBox(width: 4),
                                   Text(
                                     exp.period,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: isDark ? AppTheme.textSecondary : Colors.black45,
+                                      color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   const SizedBox(width: 12),
                                   Icon(Icons.location_on_outlined,
-                                      size: 12, color: isDark ? AppTheme.textSecondary : Colors.black45),
+                                      size: 12, color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight),
                                   const SizedBox(width: 4),
                                   Text(
                                     exp.location,
                                     style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                      color: isDark ? AppTheme.textSecondary : Colors.black45,
+                                      color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
+                                      fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                 ],
@@ -186,7 +197,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                           isExpanded
                               ? Icons.keyboard_arrow_up_rounded
                               : Icons.keyboard_arrow_down_rounded,
-                          color: isDark ? AppTheme.textSecondary : Colors.black38,
+                          color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
                         ),
                       ],
                     ),
@@ -204,7 +215,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                         style: GoogleFonts.rajdhani(
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
-                          color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                          color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -217,7 +228,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                               child: Text(
                                 r,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: isDark ? AppTheme.textSecondary : Colors.black54,
+                                  color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
                                   height: 1.6,
                                 ),
                               ),
@@ -237,6 +248,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
   }
 
   Widget _buildBugBountyBanner(BuildContext context, bool isDark) {
+    final gold = isDark ? AppTheme.ironGold : AppTheme.ironGoldLight;
     return GestureDetector(
       onTap: _triggerBountyEasterEgg,
       child: GlowCard(
@@ -248,8 +260,9 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                 Container(
                   padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: AppTheme.ironGold.withOpacity(0.15),
+                    color: gold.withOpacity(isDark ? 0.15 : 0.1),
                     borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: gold.withOpacity(0.3)),
                   ),
                   child: const Text('🏆', style: TextStyle(fontSize: 30)),
                 ),
@@ -265,7 +278,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                             style: GoogleFonts.rajdhani(
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.ironGold,
+                              color: gold,
                               letterSpacing: 2,
                             ),
                           ),
@@ -274,7 +287,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                             '[ TAP 3× ]',
                             style: GoogleFonts.rajdhani(
                               fontSize: 9,
-                              color: AppTheme.ironGold.withOpacity(0.5),
+                              color: gold.withOpacity(0.6),
                               letterSpacing: 1.5,
                             ),
                           ),
@@ -284,7 +297,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                       Text(
                         '30+ vulnerabilities reported across public programs — 2021 to present. Auth, session, crypto & business logic flaws responsibly disclosed.',
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: isDark ? AppTheme.textSecondary : Colors.black54,
+                          color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
                           height: 1.5,
                         ),
                       ),
@@ -298,13 +311,19 @@ class _ExperienceSectionState extends State<ExperienceSection> {
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                 decoration: BoxDecoration(
-                  color: AppTheme.darkBg.withOpacity(0.9),
+                  color: isDark ? AppTheme.darkBg.withOpacity(0.9) : AppTheme.lightSurface,
                   borderRadius: BorderRadius.circular(6),
-                  border: Border.all(color: AppTheme.ironGold.withOpacity(0.5)),
+                  border: Border.all(color: gold.withOpacity(0.5)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: gold.withOpacity(isDark ? 0.3 : 0.1),
+                      blurRadius: 8,
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
-                    const Icon(Icons.record_voice_over_rounded, size: 14, color: AppTheme.ironGold),
+                    Icon(Icons.record_voice_over_rounded, size: 14, color: gold),
                     const SizedBox(width: 8),
                     Expanded(
                       child: Text(
@@ -312,7 +331,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                         style: GoogleFonts.rajdhani(
                           fontSize: 11,
                           fontWeight: FontWeight.w600,
-                          color: AppTheme.ironGold,
+                          color: gold,
                           letterSpacing: 1,
                         ),
                       ),
@@ -320,7 +339,7 @@ class _ExperienceSectionState extends State<ExperienceSection> {
                     InkWell(
                       onTap: () => JarvisVoice.speak(
                           "Target acquired. Over thirty critical vulnerabilities neutralized in the wild. Bug bounty protocol confirmed."),
-                      child: const Icon(Icons.volume_up_rounded, size: 14, color: AppTheme.ironGold),
+                      child: Icon(Icons.volume_up_rounded, size: 14, color: gold),
                     ),
                   ],
                 ),

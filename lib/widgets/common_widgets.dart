@@ -30,6 +30,16 @@ class _GlowCardState extends State<GlowCard> {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveGlowColor = isDark
+        ? widget.glowColor
+        : (widget.glowColor == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (widget.glowColor == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (widget.glowColor == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : widget.glowColor)));
+
     return MouseRegion(
       onEnter: (_) => widget.isHoverable ? setState(() => _isHovered = true) : null,
       onExit: (_) => widget.isHoverable ? setState(() => _isHovered = false) : null,
@@ -37,26 +47,28 @@ class _GlowCardState extends State<GlowCard> {
         duration: const Duration(milliseconds: 300),
         padding: widget.padding ?? const EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: isDark ? AppTheme.darkCard : Colors.white,
+          color: isDark ? AppTheme.darkCard : AppTheme.lightCard,
           borderRadius: BorderRadius.circular(widget.borderRadius),
           border: Border.all(
             color: _isHovered
-                ? widget.glowColor.withOpacity(0.8)
-                : widget.glowColor.withOpacity(isDark ? 0.2 : 0.3),
+                ? effectiveGlowColor.withOpacity(0.9)
+                : effectiveGlowColor.withOpacity(isDark ? 0.25 : 0.4),
             width: _isHovered ? 1.5 : 1.0,
           ),
           boxShadow: _isHovered
               ? [
                   BoxShadow(
-                    color: widget.glowColor.withOpacity(0.3),
+                    color: effectiveGlowColor.withOpacity(isDark ? 0.3 : 0.22),
                     blurRadius: 20,
                     spreadRadius: 2,
                   )
                 ]
               : [
                   BoxShadow(
-                    color: Colors.black.withOpacity(isDark ? 0.3 : 0.08),
-                    blurRadius: 8,
+                    color: isDark
+                        ? Colors.black.withOpacity(0.3)
+                        : const Color(0xFF0A192F).withOpacity(0.06),
+                    blurRadius: 10,
                     offset: const Offset(0, 4),
                   )
                 ],
@@ -83,6 +95,16 @@ class SectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveColor = isDark
+        ? accentColor
+        : (accentColor == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (accentColor == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (accentColor == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : (accentColor == AppTheme.redAlert ? AppTheme.redAlertLight : accentColor))));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -92,10 +114,10 @@ class SectionHeader extends StatelessWidget {
               width: 4,
               height: 36,
               decoration: BoxDecoration(
-                color: accentColor,
+                color: effectiveColor,
                 borderRadius: BorderRadius.circular(2),
                 boxShadow: [
-                  BoxShadow(color: accentColor.withOpacity(0.6), blurRadius: 8),
+                  BoxShadow(color: effectiveColor.withOpacity(isDark ? 0.6 : 0.4), blurRadius: 8),
                 ],
               ),
             ),
@@ -103,8 +125,9 @@ class SectionHeader extends StatelessWidget {
             Text(
               title.toUpperCase(),
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                 letterSpacing: 3,
+                fontWeight: FontWeight.w700,
               ),
             ),
           ],
@@ -115,8 +138,9 @@ class SectionHeader extends StatelessWidget {
           child: Text(
             subtitle,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: accentColor.withOpacity(0.8),
+              color: isDark ? effectiveColor.withOpacity(0.85) : AppTheme.textSecondaryLight,
               letterSpacing: 1,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ),
@@ -129,9 +153,9 @@ class SectionHeader extends StatelessWidget {
                 width: 60,
                 height: 2,
                 decoration: BoxDecoration(
-                  color: accentColor,
+                  color: effectiveColor,
                   borderRadius: BorderRadius.circular(1),
-                  boxShadow: [BoxShadow(color: accentColor.withOpacity(0.5), blurRadius: 6)],
+                  boxShadow: [BoxShadow(color: effectiveColor.withOpacity(0.5), blurRadius: 6)],
                 ),
               ),
               const SizedBox(width: 4),
@@ -140,8 +164,8 @@ class SectionHeader extends StatelessWidget {
                 height: 8,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: accentColor,
-                  boxShadow: [BoxShadow(color: accentColor.withOpacity(0.8), blurRadius: 8)],
+                  color: effectiveColor,
+                  boxShadow: [BoxShadow(color: effectiveColor.withOpacity(0.8), blurRadius: 8)],
                 ),
               ),
             ],
@@ -193,6 +217,16 @@ class _AnimatedSkillBarState extends State<AnimatedSkillBar>
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveColor = isDark
+        ? widget.color
+        : (widget.color == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (widget.color == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (widget.color == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : (widget.color == AppTheme.redAlert ? AppTheme.redAlertLight : widget.color))));
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 6),
       child: Column(
@@ -204,8 +238,8 @@ class _AnimatedSkillBarState extends State<AnimatedSkillBar>
               Text(
                 widget.name,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
-                  fontWeight: FontWeight.w500,
+                  color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
               AnimatedBuilder(
@@ -217,7 +251,7 @@ class _AnimatedSkillBarState extends State<AnimatedSkillBar>
                     style: GoogleFonts.rajdhani(
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
-                      color: widget.color,
+                      color: effectiveColor,
                     ),
                   ),
                 ),
@@ -242,11 +276,11 @@ class _AnimatedSkillBarState extends State<AnimatedSkillBar>
                     height: 2,
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [widget.color.withOpacity(0.7), widget.color],
+                        colors: [effectiveColor.withOpacity(0.7), effectiveColor],
                       ),
                       borderRadius: BorderRadius.circular(1),
                       boxShadow: [
-                        BoxShadow(color: widget.color.withOpacity(0.5), blurRadius: 6),
+                        BoxShadow(color: effectiveColor.withOpacity(isDark ? 0.5 : 0.25), blurRadius: 6),
                       ],
                     ),
                   ),
@@ -269,19 +303,30 @@ class CyberTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveColor = isDark
+        ? color
+        : (color == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (color == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (color == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : (color == AppTheme.redAlert ? AppTheme.redAlertLight : color))));
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.12),
+        color: effectiveColor.withOpacity(isDark ? 0.12 : 0.08),
         borderRadius: BorderRadius.circular(4),
-        border: Border.all(color: color.withOpacity(0.4), width: 1),
+        border: Border.all(color: effectiveColor.withOpacity(isDark ? 0.4 : 0.5), width: 1),
       ),
       child: Text(
         label,
         style: GoogleFonts.rajdhani(
           fontSize: 12,
           fontWeight: FontWeight.w600,
-          color: color,
+          color: effectiveColor,
           letterSpacing: 0.5,
         ),
       ),
@@ -296,12 +341,23 @@ class NeonDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveColor = isDark
+        ? color
+        : (color == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (color == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (color == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : (color == AppTheme.redAlert ? AppTheme.redAlertLight : color))));
+
     return Container(
       height: 1,
       margin: const EdgeInsets.symmetric(vertical: 32),
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [Colors.transparent, color.withOpacity(0.6), Colors.transparent],
+          colors: [Colors.transparent, effectiveColor.withOpacity(isDark ? 0.6 : 0.4), Colors.transparent],
         ),
       ),
     );
@@ -326,20 +382,30 @@ class StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = Theme.of(context).brightness == Brightness.dark;
+    final effectiveColor = isDark
+        ? color
+        : (color == AppTheme.arcReactor
+            ? AppTheme.arcReactorLight
+            : (color == AppTheme.ironGold
+                ? AppTheme.ironGoldLight
+                : (color == AppTheme.cyberGreen
+                    ? AppTheme.cyberGreenLight
+                    : (color == AppTheme.redAlert ? AppTheme.redAlertLight : color))));
+
     return GlowCard(
-      glowColor: color,
+      glowColor: effectiveColor,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, size: 28, color: color),
+          Icon(icon, size: 28, color: effectiveColor),
           const SizedBox(height: 8),
           Text(
             value,
             style: GoogleFonts.rajdhani(
               fontSize: 32,
               fontWeight: FontWeight.w700,
-              color: color,
+              color: effectiveColor,
             ),
           ),
           const SizedBox(height: 4),
@@ -347,8 +413,9 @@ class StatCard extends StatelessWidget {
             label,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: isDark ? AppTheme.textSecondary : Colors.black54,
+              color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
               fontSize: 12,
+              fontWeight: FontWeight.w500,
             ),
           ),
         ],

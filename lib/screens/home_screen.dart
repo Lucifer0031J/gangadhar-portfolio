@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import '../theme/app_theme.dart';
 import '../sections/hero_section.dart';
 import '../sections/about_section.dart';
@@ -33,7 +31,6 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   final ScrollController _scrollController = ScrollController();
   int _currentSection = 0;
   bool _showFab = false;
-  bool _navVisible = true;
   late AnimationController _navAnim;
   int _logoTaps = 0;
 
@@ -171,10 +168,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 ? FloatingActionButton(
                     heroTag: 'scrollTop',
                     onPressed: _scrollToTop,
-                    backgroundColor: AppTheme.darkCard,
-                    foregroundColor: AppTheme.arcReactor,
+                    backgroundColor: isDark ? AppTheme.darkCard : AppTheme.lightSurface,
+                    foregroundColor: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight,
                     mini: true,
-                    shape: const CircleBorder(),
+                    shape: CircleBorder(
+                      side: BorderSide(
+                        color: (isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight).withOpacity(0.4),
+                        width: 1,
+                      ),
+                    ),
                     child: const Icon(Icons.keyboard_arrow_up_rounded),
                   )
                 : const SizedBox.shrink(),
@@ -189,20 +191,29 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 builder: (_) => const JarvisDialog(),
               );
             },
-            backgroundColor: AppTheme.darkSurface,
-            foregroundColor: AppTheme.arcReactor,
+            backgroundColor: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
+            foregroundColor: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(24),
-              side: BorderSide(color: AppTheme.arcReactor.withOpacity(0.6), width: 1.5),
+              side: BorderSide(
+                color: (isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight).withOpacity(0.7),
+                width: 1.5,
+              ),
             ),
-            icon: const Text('◈', style: TextStyle(fontSize: 18, color: AppTheme.arcReactor)),
+            icon: Text(
+              '◈',
+              style: TextStyle(
+                fontSize: 18,
+                color: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight,
+              ),
+            ),
             label: Text(
               'J.A.R.V.I.S.',
               style: GoogleFonts.rajdhani(
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1.5,
                 fontSize: 13,
-                color: AppTheme.arcReactor,
+                color: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight,
               ),
             ),
           ),
@@ -213,20 +224,21 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // ─── Desktop App Bar ───────────────────────────────────────────────────────
   PreferredSizeWidget _buildDesktopAppBar(bool isDark) {
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
     return PreferredSize(
       preferredSize: const Size.fromHeight(64),
       child: Container(
         decoration: BoxDecoration(
-          color: (isDark ? AppTheme.darkBg : AppTheme.lightBg).withOpacity(0.92),
+          color: (isDark ? AppTheme.darkBg : AppTheme.lightSurface).withOpacity(0.94),
           border: Border(
             bottom: BorderSide(
-              color: AppTheme.arcReactor.withOpacity(0.15),
+              color: cyan.withOpacity(isDark ? 0.15 : 0.25),
               width: 1,
             ),
           ),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(isDark ? 0.3 : 0.06),
+              color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
               blurRadius: 16,
               offset: const Offset(0, 4),
             ),
@@ -246,9 +258,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         width: 36,
                         height: 36,
                         decoration: BoxDecoration(
-                          color: AppTheme.arcReactor.withOpacity(0.1),
+                          color: cyan.withOpacity(0.12),
                           borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                          border: Border.all(color: cyan.withOpacity(0.5)),
                         ),
                         child: Center(
                           child: Text(
@@ -256,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                             style: GoogleFonts.rajdhani(
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
-                              color: AppTheme.arcReactor,
+                              color: cyan,
                               letterSpacing: 1,
                             ),
                           ),
@@ -268,7 +280,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         style: GoogleFonts.rajdhani(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
-                          color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                          color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                           letterSpacing: 3,
                         ),
                       ),
@@ -287,12 +299,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
                       decoration: BoxDecoration(
                         color: selected
-                            ? AppTheme.arcReactor.withOpacity(0.12)
+                            ? cyan.withOpacity(0.12)
                             : Colors.transparent,
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
                           color: selected
-                              ? AppTheme.arcReactor.withOpacity(0.4)
+                              ? cyan.withOpacity(0.5)
                               : Colors.transparent,
                         ),
                       ),
@@ -302,8 +314,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: 13,
                           fontWeight: FontWeight.w600,
                           color: selected
-                              ? AppTheme.arcReactor
-                              : (isDark ? AppTheme.textSecondary : Colors.black45),
+                              ? cyan
+                              : (isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight),
                           letterSpacing: 1,
                         ),
                       ),
@@ -323,6 +335,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // ─── Mobile Top Bar ────────────────────────────────────────────────────────
   Widget _buildMobileTopBar(bool isDark) {
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
     return Positioned(
       top: 0,
       left: 0,
@@ -331,10 +344,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
         height: 60,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
-          color: (isDark ? AppTheme.darkBg : AppTheme.lightBg).withOpacity(0.95),
+          color: (isDark ? AppTheme.darkBg : AppTheme.lightSurface).withOpacity(0.95),
           border: Border(
-            bottom: BorderSide(color: AppTheme.arcReactor.withOpacity(0.15)),
+            bottom: BorderSide(color: cyan.withOpacity(isDark ? 0.15 : 0.25)),
           ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(isDark ? 0.3 : 0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
           children: [
@@ -343,7 +363,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 onTap: () => Scaffold.of(ctx).openDrawer(),
                 child: Icon(
                   Icons.menu_rounded,
-                  color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                  color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                 ),
               ),
             ),
@@ -353,7 +373,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               style: GoogleFonts.rajdhani(
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: AppTheme.arcReactor,
+                color: cyan,
                 letterSpacing: 3,
               ),
             ),
@@ -368,15 +388,16 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   // ─── Bottom Nav (mobile) ───────────────────────────────────────────────────
   Widget _buildMobileBottomNav(bool isDark) {
     final visibleItems = _navItems.sublist(0, 5); // Show 5 on bottom nav
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? AppTheme.darkSurface : Colors.white,
+        color: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
         border: Border(
-          top: BorderSide(color: AppTheme.arcReactor.withOpacity(0.15)),
+          top: BorderSide(color: cyan.withOpacity(isDark ? 0.15 : 0.25)),
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(isDark ? 0.4 : 0.1),
+            color: Colors.black.withOpacity(isDark ? 0.4 : 0.08),
             blurRadius: 16,
             offset: const Offset(0, -4),
           ),
@@ -395,8 +416,11 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   duration: const Duration(milliseconds: 200),
                   padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                   decoration: BoxDecoration(
-                    color: selected ? AppTheme.arcReactor.withOpacity(0.1) : Colors.transparent,
+                    color: selected ? cyan.withOpacity(0.12) : Colors.transparent,
                     borderRadius: BorderRadius.circular(8),
+                    border: Border.all(
+                      color: selected ? cyan.withOpacity(0.4) : Colors.transparent,
+                    ),
                   ),
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -405,8 +429,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                         e.value.$2,
                         size: 20,
                         color: selected
-                            ? AppTheme.arcReactor
-                            : (isDark ? AppTheme.textSecondary : Colors.black38),
+                            ? cyan
+                            : (isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight),
                       ),
                       const SizedBox(height: 2),
                       Text(
@@ -415,8 +439,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           fontSize: 9,
                           fontWeight: FontWeight.w600,
                           color: selected
-                              ? AppTheme.arcReactor
-                              : (isDark ? AppTheme.textSecondary : Colors.black38),
+                              ? cyan
+                              : (isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight),
                           letterSpacing: 0.5,
                         ),
                       ),
@@ -433,8 +457,9 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // ─── Side Drawer ───────────────────────────────────────────────────────────
   Widget _buildDrawer(bool isDark) {
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
     return Drawer(
-      backgroundColor: isDark ? AppTheme.darkSurface : Colors.white,
+      backgroundColor: isDark ? AppTheme.darkSurface : AppTheme.lightSurface,
       child: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -451,8 +476,8 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       height: 50,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: AppTheme.arcReactor.withOpacity(0.1),
-                        border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4), width: 2),
+                        color: cyan.withOpacity(0.12),
+                        border: Border.all(color: cyan.withOpacity(0.5), width: 2),
                       ),
                       child: Center(
                         child: Text(
@@ -460,7 +485,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                           style: GoogleFonts.rajdhani(
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
-                            color: AppTheme.arcReactor,
+                            color: cyan,
                           ),
                         ),
                       ),
@@ -472,7 +497,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     style: GoogleFonts.rajdhani(
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                      color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                       height: 1.1,
                       letterSpacing: 1,
                     ),
@@ -481,13 +506,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                     'AppSec Engineer',
                     style: GoogleFonts.inter(
                       fontSize: 12,
-                      color: AppTheme.arcReactor,
+                      color: cyan,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
               ),
             ),
-            Divider(color: AppTheme.arcReactor.withOpacity(0.15)),
+            Divider(color: cyan.withOpacity(0.15)),
             Expanded(
               child: ListView(
                 padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
@@ -496,7 +522,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   return ListTile(
                     leading: Icon(
                       e.value.$2,
-                      color: selected ? AppTheme.arcReactor : (isDark ? AppTheme.textSecondary : Colors.black38),
+                      color: selected ? cyan : (isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight),
                       size: 20,
                     ),
                     title: Text(
@@ -504,12 +530,12 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                       style: GoogleFonts.rajdhani(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
-                        color: selected ? AppTheme.arcReactor : (isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A)),
+                        color: selected ? cyan : (isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight),
                         letterSpacing: 1,
                       ),
                     ),
                     selected: selected,
-                    selectedTileColor: AppTheme.arcReactor.withOpacity(0.1),
+                    selectedTileColor: cyan.withOpacity(0.1),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                     onTap: () {
                       Navigator.pop(context);
@@ -531,20 +557,17 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
   // ─── Theme Toggle ──────────────────────────────────────────────────────────
   Widget _buildThemeToggle(bool isDark) {
+    final activeColor = isDark ? AppTheme.ironGold : AppTheme.arcReactorLight;
     return GestureDetector(
       onTap: widget.onThemeToggle,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 300),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
         decoration: BoxDecoration(
-          color: isDark
-              ? AppTheme.ironGold.withOpacity(0.1)
-              : AppTheme.arcReactor.withOpacity(0.1),
+          color: activeColor.withOpacity(isDark ? 0.1 : 0.12),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isDark
-                ? AppTheme.ironGold.withOpacity(0.3)
-                : AppTheme.arcReactor.withOpacity(0.3),
+            color: activeColor.withOpacity(isDark ? 0.3 : 0.5),
           ),
         ),
         child: Row(
@@ -560,7 +583,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
               style: GoogleFonts.rajdhani(
                 fontSize: 10,
                 fontWeight: FontWeight.w700,
-                color: isDark ? AppTheme.ironGold : AppTheme.arcReactor,
+                color: activeColor,
                 letterSpacing: 1,
               ),
             ),

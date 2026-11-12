@@ -104,7 +104,7 @@ class _AboutSectionState extends State<AboutSection> {
               Text(
                 ResumeData.summary,
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: isDark ? AppTheme.textSecondary : Colors.black54,
+                  color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
                   height: 1.8,
                 ),
               ),
@@ -124,7 +124,7 @@ class _AboutSectionState extends State<AboutSection> {
               children: [
                 Row(
                   children: [
-                    const Icon(Icons.hardware_rounded, size: 32, color: AppTheme.ironGold),
+                    Icon(Icons.hardware_rounded, size: 32, color: isDark ? AppTheme.ironGold : AppTheme.ironGoldLight),
                     const SizedBox(width: 14),
                     Expanded(
                       child: Column(
@@ -137,7 +137,7 @@ class _AboutSectionState extends State<AboutSection> {
                                 style: GoogleFonts.rajdhani(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
-                                  color: AppTheme.ironGold,
+                                  color: isDark ? AppTheme.ironGold : AppTheme.ironGoldLight,
                                   letterSpacing: 2,
                                 ),
                               ),
@@ -146,7 +146,7 @@ class _AboutSectionState extends State<AboutSection> {
                                 '[ TAP 3× ]',
                                 style: GoogleFonts.rajdhani(
                                   fontSize: 9,
-                                  color: AppTheme.ironGold.withOpacity(0.5),
+                                  color: (isDark ? AppTheme.ironGold : AppTheme.ironGoldLight).withOpacity(0.5),
                                   letterSpacing: 1.5,
                                 ),
                               ),
@@ -156,7 +156,7 @@ class _AboutSectionState extends State<AboutSection> {
                           Text(
                             'Offensive mindset. Defensive expertise. The kind of engineer who builds the lock and tries to pick it — just to make sure it\'s unbreakable.',
                             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: isDark ? AppTheme.textSecondary : Colors.black54,
+                              color: isDark ? AppTheme.textSecondary : AppTheme.textSecondaryLight,
                               fontStyle: FontStyle.italic,
                               height: 1.5,
                             ),
@@ -171,13 +171,19 @@ class _AboutSectionState extends State<AboutSection> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: AppTheme.darkBg.withOpacity(0.9),
+                      color: isDark ? AppTheme.darkBg.withOpacity(0.9) : AppTheme.lightSurface,
                       borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: AppTheme.arcReactor.withOpacity(0.5)),
+                      border: Border.all(color: (isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight).withOpacity(0.5)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: (isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight).withOpacity(isDark ? 0.3 : 0.1),
+                          blurRadius: 8,
+                        ),
+                      ],
                     ),
                     child: Row(
                       children: [
-                        const Icon(Icons.record_voice_over_rounded, size: 16, color: AppTheme.arcReactor),
+                        Icon(Icons.record_voice_over_rounded, size: 16, color: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
@@ -185,7 +191,7 @@ class _AboutSectionState extends State<AboutSection> {
                             style: GoogleFonts.rajdhani(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
-                              color: AppTheme.arcReactor,
+                              color: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight,
                               letterSpacing: 1,
                             ),
                           ),
@@ -193,7 +199,7 @@ class _AboutSectionState extends State<AboutSection> {
                         InkWell(
                           onTap: () => JarvisVoice.speak(
                               "Protocol 42: The Indian Stark dossier. Built different. Offensive mindset, defensive mastery."),
-                          child: const Icon(Icons.volume_up_rounded, size: 16, color: AppTheme.arcReactor),
+                          child: Icon(Icons.volume_up_rounded, size: 16, color: isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight),
                         ),
                       ],
                     ),
@@ -208,6 +214,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   Widget _buildInfoCard(BuildContext context, bool isDark) {
+    final green = isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight;
     return GlowCard(
       glowColor: AppTheme.cyberGreen,
       child: Column(
@@ -218,7 +225,7 @@ class _AboutSectionState extends State<AboutSection> {
             style: GoogleFonts.rajdhani(
               fontSize: 16,
               fontWeight: FontWeight.w700,
-              color: AppTheme.cyberGreen,
+              color: green,
               letterSpacing: 3,
             ),
           ),
@@ -230,6 +237,7 @@ class _AboutSectionState extends State<AboutSection> {
   }
 
   List<Widget> _infoRows(BuildContext context, bool isDark) {
+    final green = isDark ? AppTheme.cyberGreen : AppTheme.cyberGreenLight;
     final rows = [
       (Icons.email_rounded, 'Email', ResumeData.email),
       (Icons.phone_android_rounded, 'Phone', ResumeData.phone),
@@ -245,7 +253,7 @@ class _AboutSectionState extends State<AboutSection> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(r.$1, size: 16, color: AppTheme.cyberGreen),
+          Icon(r.$1, size: 16, color: green),
           const SizedBox(width: 10),
           Expanded(
             child: Column(
@@ -256,14 +264,14 @@ class _AboutSectionState extends State<AboutSection> {
                   style: GoogleFonts.rajdhani(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
-                    color: AppTheme.cyberGreen,
+                    color: green,
                     letterSpacing: 1.5,
                   ),
                 ),
                 Text(
                   r.$3,
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                    color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                     height: 1.4,
                   ),
                 ),

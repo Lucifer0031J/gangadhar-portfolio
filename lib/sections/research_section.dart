@@ -51,6 +51,9 @@ class _ResearchSectionState extends State<ResearchSection> {
   }
 
   Widget _buildGrid(BuildContext context, bool isDark, int cols) {
+    final gold = isDark ? AppTheme.ironGold : AppTheme.ironGoldLight;
+    final cyan = isDark ? AppTheme.arcReactor : AppTheme.arcReactorLight;
+
     return GridView.builder(
       shrinkWrap: true,
       physics: const NeverScrollableScrollPhysics(),
@@ -78,16 +81,16 @@ class _ResearchSectionState extends State<ResearchSection> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(
-                        color: AppTheme.ironGold.withOpacity(0.15),
+                        color: gold.withOpacity(isDark ? 0.15 : 0.1),
                         borderRadius: BorderRadius.circular(4),
-                        border: Border.all(color: AppTheme.ironGold.withOpacity(0.4)),
+                        border: Border.all(color: gold.withOpacity(isDark ? 0.4 : 0.5)),
                       ),
                       child: Text(
                         'STATUS: ${item.status}',
                         style: GoogleFonts.rajdhani(
                           fontSize: 10,
                           fontWeight: FontWeight.w700,
-                          color: AppTheme.ironGold,
+                          color: gold,
                           letterSpacing: 1.5,
                         ),
                       ),
@@ -97,8 +100,9 @@ class _ResearchSectionState extends State<ResearchSection> {
                       '[ TAP FOR INTEL ]',
                       style: GoogleFonts.rajdhani(
                         fontSize: 9,
-                        color: AppTheme.arcReactor.withOpacity(0.6),
+                        color: cyan.withOpacity(0.7),
                         letterSpacing: 1,
+                        fontWeight: FontWeight.w600,
                       ),
                     ),
                   ],
@@ -109,7 +113,7 @@ class _ResearchSectionState extends State<ResearchSection> {
                   style: GoogleFonts.rajdhani(
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
-                    color: isDark ? AppTheme.textPrimary : const Color(0xFF0D1B2A),
+                    color: isDark ? AppTheme.textPrimary : AppTheme.textPrimaryLight,
                   ),
                 ),
                 if (isEggActive) ...[
@@ -117,21 +121,21 @@ class _ResearchSectionState extends State<ResearchSection> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: AppTheme.arcReactor.withOpacity(0.12),
+                      color: cyan.withOpacity(isDark ? 0.12 : 0.08),
                       borderRadius: BorderRadius.circular(4),
-                      border: Border.all(color: AppTheme.arcReactor.withOpacity(0.4)),
+                      border: Border.all(color: cyan.withOpacity(0.4)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.record_voice_over_rounded, size: 12, color: AppTheme.arcReactor),
+                        Icon(Icons.record_voice_over_rounded, size: 12, color: cyan),
                         const SizedBox(width: 4),
                         Text(
                           'J.A.R.V.I.S.: Level 7 Classified Clearance',
                           style: GoogleFonts.rajdhani(
                             fontSize: 10,
                             fontWeight: FontWeight.w700,
-                            color: AppTheme.arcReactor,
+                            color: cyan,
                             letterSpacing: 1,
                           ),
                         ),
