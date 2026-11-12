@@ -84,41 +84,121 @@
         initVoices();
       }
 
+      let currentAudio = null;
+
+      const audioMap = {
+        'welcome to stark tower': 'assets/audio/welcome.mp3',
+        'protocol 42': 'assets/audio/about.mp3',
+        'indian stark': 'assets/audio/about.mp3',
+        'built different': 'assets/audio/about.mp3',
+        'tactical operational': 'assets/audio/skills.mp3',
+        'telemetry': 'assets/audio/skills.mp3',
+        'target acquired': 'assets/audio/bounty.mp3',
+        'thirty critical': 'assets/audio/bounty.mp3',
+        'intellectual property': 'assets/audio/credentials.mp3',
+        'copyright': 'assets/audio/credentials.mp3',
+        'classified stark': 'assets/audio/research.mp3',
+        'quantum-resistant': 'assets/audio/research.mp3',
+        'clearance level seven': 'assets/audio/research.mp3',
+        'security clearance verified': 'assets/audio/ironman.mp3',
+        'i am iron man': 'assets/audio/iamironman_short.mp3'
+      };
+
+      function getAudioPath(text) {
+        const lower = text.toLowerCase();
+        for (const [key, path] of Object.entries(audioMap)) {
+          if (lower.includes(key)) {
+            return path;
+          }
+        }
+        return null;
+      }
+
+      function playBrowserTTS(rawText) {
+        if (!('speechSynthesis' in window)) return;
+        const clean = rawText
+          .replace(/[🦾🛡️📜📱🌐🔑🔗🎓🎖️◈✓—–•*#]/g, ' ')
+          .replace(/["'"`]/g, '')
+          .replace(/\s+/g, ' ')
+          .trim();
+
+        if (!clean) return;
+
+        const utterance = new SpeechSynthesisUtterance(clean);
+        const voice = cachedBritishVoice || findBritishVoice();
+        if (voice) {
+          utterance.voice = voice;
+          utterance.lang = voice.lang || 'en-GB';
+        } else {
+          utterance.lang = 'en-GB';
+        }
+
+        utterance.pitch = 0.95;
+        utterance.rate = 1.0;
+        utterance.volume = 1.0;
+
+        window.speechSynthesis.speak(utterance);
+      }
+
       window.speakJarvis = function(rawText) {
-        if (!('speechSynthesis' in window) || !rawText) return;
+        if (!rawText) return;
         try {
-          window.speechSynthesis.cancel();
-          playStarkChime();
-
-          // Clean symbols, asterisks, brackets, and emojis for smooth, natural speech
-          let clean = rawText
-            .replace(/[🦾🛡️📜📱🌐🔑🔗🎓🎖️◈✓—–•*#]/g, ' ')
-            .replace(/["'"`]/g, '')
-            .replace(/\s+/g, ' ')
-            .trim();
-
-          if (!clean) return;
-
-          const utterance = new SpeechSynthesisUtterance(clean);
-          const voice = cachedBritishVoice || findBritishVoice();
-          if (voice) {
-            utterance.voice = voice;
-            utterance.lang = voice.lang || 'en-GB';
-          } else {
-            utterance.lang = 'en-GB';
+          if (currentAudio) {
+            currentAudio.pause();
+            currentAudio.currentTime = 0;
+            currentAudio = null;
+          }
+          if ('speechSynthesis' in window) {
+            window.speechSynthesis.cancel();
           }
 
-          utterance.pitch = 0.95;
-          utterance.rate = 1.0;
-          utterance.volume = 1.0;
+          playStarkChime();
 
-          window.speechSynthesis.speak(utterance);
+          const audioPath = getAudioPath(rawText);
+          if (audioPath) {
+            let base = document.querySelector('base') ? document.querySelector('base').getAttribute('href') : '';
+            if (base && !base.endsWith('/')) base += '/';
+            const fullSrc = (base ? base : '') + audioPath;
+
+            currentAudio = new Audio(fullSrc);
+            currentAudio.volume = 1.0;
+            currentAudio.onerror = function() {
+              const altSrc = (base ? base : '') + 'assets/' + audioPath;
+              const altAudio = new Audio(altSrc);
+              altAudio.volume = 1.0;
+              currentAudio = altAudio;
+              altAudio.play().catch(function() {
+                playBrowserTTS(rawText);
+              });
+            };
+            const playPromise = currentAudio.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(function(err) {
+                console.warn('Audio clip primary playback failed, trying alternate:', err);
+                const altSrc = (base ? base : '') + 'assets/' + audioPath;
+                const altAudio = new Audio(altSrc);
+                altAudio.volume = 1.0;
+                currentAudio = altAudio;
+                altAudio.play().catch(function() {
+                  playBrowserTTS(rawText);
+                });
+              });
+            }
+            return;
+          }
+
+          playBrowserTTS(rawText);
         } catch (e) {
           console.warn('JARVIS speech error:', e);
         }
       };
 
       window.stopJarvis = function() {
+        if (currentAudio) {
+          currentAudio.pause();
+          currentAudio.currentTime = 0;
+          currentAudio = null;
+        }
         if ('speechSynthesis' in window) {
           window.speechSynthesis.cancel();
         }
